@@ -1,3 +1,4 @@
+import 'package:police_flutter_template/screens/home/widgets/hero_section.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -5,6 +6,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Hier kommt der Inhalt :)').center();
+    return SingleChildScrollView(child: Column(mainAxisSize: MainAxisSize.max, children: [HeroSection()]));
   }
 }
