@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:police_flutter_template/extensions/text_extensions.dart';
+import 'package:police_flutter_template/screens/widgets/layouts/widgets/sidebar_navigation.dart';
 import 'package:police_flutter_template/screens/widgets/layouts/widgets/top_navigation.dart';
 import 'package:police_flutter_template/screens/widgets/light_button.dart';
 import 'package:police_flutter_template/settings/app_constants.dart';
@@ -39,12 +40,6 @@ class _MainLayoutState extends State<MainLayout> {
 
     final width = MediaQuery.of(context).size.width;
     final isMobile = width < navigationItems.topNavigationBreakWidth;
-
-    /// Index of the current navigation item.
-    ///
-    /// Note: This is currently unused; consider wiring it to navigationShell
-    /// state when you implement multi-branch navigation.
-    int index = 0;
 
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
@@ -184,7 +179,16 @@ class _MainLayoutState extends State<MainLayout> {
                             ),
                           LightButton(
                             onPressed: () {
-                              setState(() {});
+                              openSheet(
+                                context: context,
+                                barrierColor: Colors.black.withAlpha(100),
+                                builder: (sidebarContext) => SidebarNavigation(
+                                  sidebarContext: sidebarContext,
+                                  navigationItems: navigationItems,
+                                  navigationShell: widget.navigationShell,
+                                ),
+                                position: OverlayPosition.left,
+                              );
                             },
                             isIcon: true,
                             child: const Icon(LucideIcons.menu, size: 22),

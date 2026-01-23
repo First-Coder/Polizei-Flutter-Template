@@ -1,10 +1,11 @@
 import 'package:go_router/go_router.dart';
 import 'package:police_flutter_template/settings/navigation_items.dart';
-import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart' hide NavigationItem;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../extensions/button_extensions.dart';
 import '../../light_button.dart';
+import '../models/navigation_item.dart';
 
 class TopNavigation extends StatelessWidget {
   const TopNavigation({
@@ -17,6 +18,19 @@ class TopNavigation extends StatelessWidget {
 
   final StatefulNavigationShell navigationShell;
 
+  void _onPressed(NavigationItem item) async {
+    if (item.onPressed != null) {
+      item.onPressed!();
+      return;
+    }
+    if (!item.isExternal || item.url == null) return;
+    final uri = Uri.parse(item.url!);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      // TODO: Handle error with notification
+      // throw Exception('Konnte URL nicht öffnen: $uri');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -25,22 +39,9 @@ class TopNavigation extends StatelessWidget {
           .map(
             (item) =>
                 (LightButton(
-                  onPressed:
-                      item.onPressed ??
-                      () async {
-                        if (!item.isExternal || item.url == null) return;
-                        final uri = Uri.parse(item.url!);
-                        if (!await launchUrl(
-                          uri,
-                          mode: LaunchMode.externalApplication,
-                        )) {
-                          // TODO: Handle error with notification
-                          // throw Exception('Konnte URL nicht öffnen: $uri');
-                        }
-                      },
+                  onPressed: () => _onPressed(item),
                   isActive: item.index == navigationShell.currentIndex,
                   isIcon: false,
-                  leading: item.icon,
                   trailing: item.children.isEmpty
                       ? null
                       : const Icon(LucideIcons.chevronDown),
@@ -77,7 +78,7 @@ class TopNavigation extends StatelessWidget {
                         children: item.children
                             .map(
                               (subItem) => (LightButton(
-                                onPressed: subItem.onPressed ?? () {},
+                                onPressed: () => _onPressed(subItem),
                                 isIcon: false,
                                 isActive:
                                     subItem.index ==

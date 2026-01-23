@@ -35,6 +35,7 @@ class NavigationItems {
     NavigationItem(
       index: 0,
       title: "Home",
+      icon: const Icon(LucideIcons.house),
       onPressed: () => context.goNamed(RouteNames.home),
     ),
     NavigationItem(
@@ -51,6 +52,7 @@ class NavigationItems {
     ),
     NavigationItem(
       index: null,
+      icon: const Icon(LucideIcons.code),
       title: "Flutter ShadCn",
       url: "https://sunarya-thito.github.io/shadcn_flutter/",
       isExternal: true,
