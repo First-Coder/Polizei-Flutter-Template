@@ -14,6 +14,8 @@ extension ButtonExtensions on Widget {
   Widget withPopover({
     required Widget Function(BuildContext) builder,
 
+    bool enabled = true,
+
     // Press behavior
     bool enablePress = true,
     bool callOriginalOnPressed = false,
@@ -28,6 +30,7 @@ extension ButtonExtensions on Widget {
     Alignment placement = Alignment.bottomCenter,
     Offset offset = const Offset(0, 8),
   }) {
+    if(!enabled) return this;
     return ButtonPopoverWrapper(
       anchor: this,
       builder: builder,

@@ -147,6 +147,7 @@ class _ButtonPopoverWrapperState extends State<ButtonPopoverWrapper> {
 
   /// Shows the popover using shadcn_flutter's imperative API.
   void _show() {
+    _close();
     showPopover(
       context: context,
       builder: (overlayContext) {

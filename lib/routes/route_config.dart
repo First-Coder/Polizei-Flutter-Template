@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:police_flutter_template/routes/route_names.dart';
 import 'package:police_flutter_template/screens/auth/auth_not_initialized_screen.dart';
+import 'package:police_flutter_template/screens/components/buttons/buttons_screen.dart';
 import 'package:police_flutter_template/screens/home/home_screen.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -160,6 +161,15 @@ class RouteConfig {
                   name: RouteNames.home,
                   path: RouteNames.homeUrl,
                   builder: (context, state) => HomeScreen(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  name: RouteNames.buttons,
+                  path: RouteNames.buttonsUrl,
+                  builder: (context, state) => ButtonsScreen(),
                 ),
               ],
             ),

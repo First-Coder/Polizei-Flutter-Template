@@ -1,3 +1,51 @@
-class NavigationItems {
+import 'package:go_router/go_router.dart';
+import 'package:police_flutter_template/screens/widgets/layouts/models/navigation_item.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart' hide NavigationItem;
 
+import '../routes/route_names.dart';
+
+/// Factory/provider for the application's navigation tree.
+///
+/// This class builds a list of [NavigationItem] definitions that can be rendered
+/// by a layout (e.g. sidebar/drawer).
+///
+/// Why it needs a [BuildContext]:
+/// The navigation actions use `go_router` (e.g. `context.goNamed(...)`), so the
+/// current widget context is required to build [onPressed] callbacks.
+///
+/// Note:
+/// `shadcn_flutter` also defines a `NavigationItem`, therefore the import uses
+/// `hide NavigationItem` to avoid a name collision with the local model.
+class NavigationItems {
+  /// Creates a navigation item provider for the given [context].
+  const NavigationItems({required this.context});
+
+  /// The context used to construct navigation callbacks (e.g. `go_router` calls).
+  final BuildContext context;
+
+  /// The static navigation definition for the app.
+  ///
+  /// - Leaf items provide [NavigationItem.onPressed].
+  /// - Group items provide [NavigationItem.children].
+  List<NavigationItem> get items => [
+    NavigationItem(
+      title: "Home",
+      onPressed: () => context.goNamed(RouteNames.home),
+    ),
+    NavigationItem(
+      title: "Components",
+      children: [
+        NavigationItem(
+          title: "Buttons",
+          icon: const Icon(LucideIcons.component),
+          onPressed: () => context.goNamed(RouteNames.buttons),
+        ),
+      ],
+    ),
+    NavigationItem(
+      title: "Flutter ShadCn",
+      url: "https://sunarya-thito.github.io/shadcn_flutter/",
+      isExternal: true,
+    ),
+  ];
 }

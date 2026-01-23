@@ -1,10 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:police_flutter_template/extensions/button_extensions.dart';
 import 'package:police_flutter_template/extensions/text_extensions.dart';
+import 'package:police_flutter_template/screens/widgets/layouts/widgets/top_navigation.dart';
 import 'package:police_flutter_template/screens/widgets/light_button.dart';
 import 'package:police_flutter_template/settings/app_constants.dart';
+import 'package:police_flutter_template/settings/navigation_items.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../bloc/auth/auth_bloc.dart';
@@ -23,6 +24,8 @@ class MainLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = context.watch<ThemeCubit>().state.isDarkMode;
+
+    final navigationItems = NavigationItems(context: context);
 
     /// Index of the current navigation item.
     ///
@@ -85,38 +88,7 @@ class MainLayout extends StatelessWidget {
                     ),
 
                     // Primary navigation (popover menus, etc.).
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        LightButton(
-                          onPressed: () {},
-                          isIcon: false,
-                          trailing: const Icon(LucideIcons.chevronDown),
-                          child: const Text('Aktuelles'),
-                        ).withPopover(
-                          enablePress: false,
-                          enableHover: true,
-                          offset: const Offset(0, -4),
-                          builder: (context) {
-                            return ModalContainer(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  LightButton(
-                                    leading: const Icon(LucideIcons.newspaper),
-                                    borderRadius: 0,
-                                    isIcon: false,
-                                    onPressed: () {},
-                                    child: Text('Online-Anzeige'),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                    TopNavigation(navigationItems: navigationItems),
 
                     // User actions (theme toggle, search, profile menu).
                     Row(
