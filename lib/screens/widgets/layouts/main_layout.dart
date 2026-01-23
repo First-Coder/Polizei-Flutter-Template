@@ -37,6 +37,9 @@ class _MainLayoutState extends State<MainLayout> {
 
     final isDarkMode = context.watch<ThemeCubit>().state.isDarkMode;
 
+    final width = MediaQuery.of(context).size.width;
+    final isMobile = width < navigationItems.topNavigationBreakWidth;
+
     /// Index of the current navigation item.
     ///
     /// Note: This is currently unused; consider wiring it to navigationShell
@@ -97,57 +100,97 @@ class _MainLayoutState extends State<MainLayout> {
                       ],
                     ),
 
-                    // Primary navigation (popover menus, etc.).
-                    TopNavigation(navigationItems: navigationItems),
+                    // Primary navigation for desktop.
+                    if (!isMobile) ...[
+                      TopNavigation(
+                        navigationItems: navigationItems,
+                        navigationShell: widget.navigationShell,
+                      ),
 
-                    // User actions (theme toggle, search, profile menu).
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        LightButton(
-                          onPressed: () {
-                            context.read<ThemeCubit>().toggleTheme();
-                          },
-                          isIcon: true,
-                          child: isDarkMode
-                              ? const Icon(LucideIcons.sun, size: 20)
-                              : const Icon(LucideIcons.moon, size: 20),
-                        ),
-                        if (searchEngine.showSearch)
+                      // User actions (theme toggle, search, profile menu).
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
                           LightButton(
                             onPressed: () {
-                              setState(() {
-                                showSearch = !showSearch;
-                              });
+                              context.read<ThemeCubit>().toggleTheme();
                             },
                             isIcon: true,
-                            child: showSearch
-                                ? const Icon(LucideIcons.x, size: 20)
-                                : const Icon(LucideIcons.search, size: 20),
+                            child: isDarkMode
+                                ? const Icon(LucideIcons.sun, size: 20)
+                                : const Icon(LucideIcons.moon, size: 20),
                           ),
-                        Button(
-                          style: ButtonStyle.card()
-                              .copyWith(
-                                decoration: (context, states, value) {
-                                  return BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                  );
-                                },
-                              )
-                              .withBackgroundColor(
-                                hoverColor: isDarkMode
-                                    ? Colors.gray[800]
-                                    : Colors.blue[50],
-                              ),
-                          onPressed: () {},
-                          trailing: const Icon(LucideIcons.chevronDown),
-                          child: Basic(
-                            title: Text('${user.firstName} ${user.lastName}'),
-                            subtitle: Text('Pers. Nr.: ${user.id}'),
+                          if (searchEngine.showSearch)
+                            LightButton(
+                              onPressed: () {
+                                setState(() {
+                                  showSearch = !showSearch;
+                                });
+                              },
+                              isIcon: true,
+                              child: showSearch
+                                  ? const Icon(LucideIcons.x, size: 20)
+                                  : const Icon(LucideIcons.search, size: 20),
+                            ),
+                          Button(
+                            style: ButtonStyle.card()
+                                .copyWith(
+                                  decoration: (context, states, value) {
+                                    return BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                    );
+                                  },
+                                )
+                                .withBackgroundColor(
+                                  hoverColor: isDarkMode
+                                      ? Colors.gray[800]
+                                      : Colors.blue[50],
+                                ),
+                            onPressed: () {},
+                            trailing: const Icon(LucideIcons.chevronDown),
+                            child: Basic(
+                              title: Text('${user.firstName} ${user.lastName}'),
+                              subtitle: Text('Pers. Nr.: ${user.id}'),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                    ],
+
+                    if (isMobile)
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          LightButton(
+                            onPressed: () {
+                              context.read<ThemeCubit>().toggleTheme();
+                            },
+                            isIcon: true,
+                            child: isDarkMode
+                                ? const Icon(LucideIcons.sun, size: 22)
+                                : const Icon(LucideIcons.moon, size: 22),
+                          ),
+                          if (searchEngine.showSearch)
+                            LightButton(
+                              onPressed: () {
+                                setState(() {
+                                  showSearch = !showSearch;
+                                });
+                              },
+                              isIcon: true,
+                              child: showSearch
+                                  ? const Icon(LucideIcons.x, size: 22)
+                                  : const Icon(LucideIcons.search, size: 22),
+                            ),
+                          LightButton(
+                            onPressed: () {
+                              setState(() {});
+                            },
+                            isIcon: true,
+                            child: const Icon(LucideIcons.menu, size: 22),
+                          ),
+                        ],
+                      ).gap(10),
                   ],
                 ).withPadding(all: 10),
               ).center(),

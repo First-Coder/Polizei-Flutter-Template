@@ -23,19 +23,26 @@ class NavigationItems {
   /// The context used to construct navigation callbacks (e.g. `go_router` calls).
   final BuildContext context;
 
+  final useTopNavigation = true;
+
+  final topNavigationBreakWidth = 900;
+
   /// The static navigation definition for the app.
   ///
   /// - Leaf items provide [NavigationItem.onPressed].
   /// - Group items provide [NavigationItem.children].
   List<NavigationItem> get items => [
     NavigationItem(
+      index: 0,
       title: "Home",
       onPressed: () => context.goNamed(RouteNames.home),
     ),
     NavigationItem(
+      index: null,
       title: "Components",
       children: [
         NavigationItem(
+          index: 1,
           title: "Buttons",
           icon: const Icon(LucideIcons.component),
           onPressed: () => context.goNamed(RouteNames.buttons),
@@ -43,6 +50,7 @@ class NavigationItems {
       ],
     ),
     NavigationItem(
+      index: null,
       title: "Flutter ShadCn",
       url: "https://sunarya-thito.github.io/shadcn_flutter/",
       isExternal: true,

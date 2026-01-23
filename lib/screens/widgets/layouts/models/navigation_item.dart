@@ -22,6 +22,7 @@ class NavigationItem {
   ///
   /// Required:
   /// - [title] is the label shown to the user.
+  /// - [index] is the index of the item in the navigation tree.
   ///
   /// Optional:
   /// - [icon] is rendered next to the title (if provided).
@@ -35,12 +36,16 @@ class NavigationItem {
   /// - If [isExternal] is `true`, provide a non-null [url].
   const NavigationItem({
     required this.title,
+    required this.index,
     this.icon,
     this.children = const [],
     this.isExternal = false,
     this.url,
     this.onPressed,
   });
+
+  /// Index for navigation route
+  final int? index;
 
   /// Visible label displayed in the navigation UI.
   final String title;

@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:police_flutter_template/settings/navigation_items.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,9 +7,15 @@ import '../../../../extensions/button_extensions.dart';
 import '../../light_button.dart';
 
 class TopNavigation extends StatelessWidget {
-  const TopNavigation({super.key, required this.navigationItems});
+  const TopNavigation({
+    super.key,
+    required this.navigationItems,
+    required this.navigationShell,
+  });
 
   final NavigationItems navigationItems;
+
+  final StatefulNavigationShell navigationShell;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +38,7 @@ class TopNavigation extends StatelessWidget {
                           // throw Exception('Konnte URL nicht öffnen: $uri');
                         }
                       },
+                  isActive: item.index == navigationShell.currentIndex,
                   isIcon: false,
                   leading: item.icon,
                   trailing: item.children.isEmpty
@@ -71,6 +79,9 @@ class TopNavigation extends StatelessWidget {
                               (subItem) => (LightButton(
                                 onPressed: subItem.onPressed ?? () {},
                                 isIcon: false,
+                                isActive:
+                                    subItem.index ==
+                                    navigationShell.currentIndex,
                                 borderRadius: 0,
                                 leading: subItem.icon,
                                 child: Text(subItem.title),
@@ -83,6 +94,6 @@ class TopNavigation extends StatelessWidget {
                 )),
           )
           .toList(),
-    );
+    ).gap(10);
   }
 }
