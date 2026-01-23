@@ -9,23 +9,33 @@ import 'package:police_flutter_template/settings/navigation_items.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../bloc/auth/auth_bloc.dart';
+import '../../../settings/search_engine.dart';
 import '../../../theme/cubit/theme_cubit.dart';
 
 /// Main shell layout for authenticated areas.
 ///
 /// Wraps a [StatefulNavigationShell] and provides a persistent header bar.
 /// The actual route content is rendered via [navigationShell].
-class MainLayout extends StatelessWidget {
+class MainLayout extends StatefulWidget {
   const MainLayout({super.key, required this.navigationShell});
 
   /// The go_router navigation shell (e.g. for bottom tabs / branches).
   final StatefulNavigationShell navigationShell;
 
   @override
-  Widget build(BuildContext context) {
-    final isDarkMode = context.watch<ThemeCubit>().state.isDarkMode;
+  State<MainLayout> createState() => _MainLayoutState();
+}
 
+class _MainLayoutState extends State<MainLayout> {
+  bool showSearch = false;
+
+  final searchEngine = SearchEngine();
+
+  @override
+  Widget build(BuildContext context) {
     final navigationItems = NavigationItems(context: context);
+
+    final isDarkMode = context.watch<ThemeCubit>().state.isDarkMode;
 
     /// Index of the current navigation item.
     ///
@@ -103,16 +113,18 @@ class MainLayout extends StatelessWidget {
                               ? const Icon(LucideIcons.sun, size: 20)
                               : const Icon(LucideIcons.moon, size: 20),
                         ),
-                        Button(
-                          style: ButtonStyle.ghostIcon().withBackgroundColor(
-                            hoverColor: isDarkMode
-                                ? Colors.gray[800]
-                                : Colors.blue[50],
+                        if (searchEngine.showSearch)
+                          LightButton(
+                            onPressed: () {
+                              setState(() {
+                                showSearch = !showSearch;
+                              });
+                            },
+                            isIcon: true,
+                            child: showSearch
+                                ? const Icon(LucideIcons.x, size: 20)
+                                : const Icon(LucideIcons.search, size: 20),
                           ),
-                          // density: ButtonDensity.icon,
-                          onPressed: () {},
-                          child: const Icon(LucideIcons.search, size: 20),
-                        ),
                         Button(
                           style: ButtonStyle.card()
                               .copyWith(
@@ -161,7 +173,36 @@ class MainLayout extends StatelessWidget {
               ),
             ),
           ],
-          child: navigationShell,
+          child: Stack(
+            children: [
+              widget.navigationShell,
+              if (showSearch) ...[
+                Positioned.fill(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      setState(() => showSearch = false);
+                    },
+                    child: Container(color: Colors.black.withAlpha(100)),
+                  ),
+                ),
+                Center(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      // Klicks im Command schließen NICHT (Event wird hier abgefangen)
+                    },
+                    child: Command(
+                      builder: searchEngine.queryBuilder,
+                      searchPlaceholder: searchEngine.searchPlaceholder,
+                      loadingBuilder: searchEngine.loadingBuilder,
+                      emptyBuilder: searchEngine.emptyBuilder,
+                    ).sized(width: 600, height: 400),
+                  ),
+                ),
+              ],
+            ],
+          ),
         );
       },
     );
