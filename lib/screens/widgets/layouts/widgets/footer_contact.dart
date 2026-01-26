@@ -6,6 +6,9 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../extensions/text_extensions.dart';
 import '../responsive.dart';
 
+/// Renders the "Contact" area in the footer.
+///
+/// The displayed contacts are defined in [FooterSettings.contacts].
 class FooterContact extends StatelessWidget {
   const FooterContact({super.key});
 
@@ -19,18 +22,25 @@ class FooterContact extends StatelessWidget {
       children: [
         Text("Kontakt").h4.semiBold.setColors(lightColor: Colors.white),
         ...FooterSettings.contacts.map(
-          (contact) => (FooterContactRow(model: contact)),
+          (contact) => (_FooterContactRow(model: contact)),
         ),
       ],
     ).gap(12);
   }
 }
 
-class FooterContactRow extends StatelessWidget {
-  const FooterContactRow({super.key, required this.model});
+/// Single row entry for a footer contact.
+///
+/// Supports:
+/// - click-to-call if [FooterContactModel.isPhone] is true
+/// - click-to-email if [FooterContactModel.isMail] is true
+class _FooterContactRow extends StatelessWidget {
+  const _FooterContactRow({required this.model});
 
+  /// Contact model definition for this row.
   final FooterContactModel model;
 
+  /// Launches a phone or mail intent depending on the model flags.
   Future<void> _call() async {
     if (!model.isMail && !model.isPhone) return;
     final uri = Uri(scheme: model.isMail ? 'mailto' : 'tel', path: model.value);

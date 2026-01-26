@@ -6,6 +6,15 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../extensions/widget_extensions.dart';
 import '../../../theme/cubit/theme_cubit.dart';
 
+/// The landing page hero section shown on the home screen.
+///
+/// Responsibilities:
+/// - Displays app version (loaded via `package_info_plus`)
+/// - Shows a headline, short description, and primary actions
+/// - Renders a responsive grid of feature cards
+///
+/// Theme behavior:
+/// - Uses [ThemeCubit] to adjust colors and gradients for dark/light mode.
 class HeroSection extends StatefulWidget {
   const HeroSection({super.key});
 
@@ -17,12 +26,13 @@ class _HeroSectionState extends State<HeroSection> {
   /// App version shown in the footer (loaded asynchronously).
   String _version = '0.0.0';
 
+  /// Static list of feature cards displayed in the hero grid.
   final List<_HeroCards> _heroCards = const [
     _HeroCards(
       icon: LucideIcons.palette,
       title: "Polizei-Blau Design System",
       text:
-          "Professionelles Farbschema mit Berlin Polizei Blau als Primärfarbe",
+      "Professionelles Farbschema mit Berlin Polizei Blau als Primärfarbe",
     ),
     _HeroCards(
       icon: LucideIcons.moon,
@@ -74,12 +84,12 @@ class _HeroSectionState extends State<HeroSection> {
     return Container(
       decoration: isDarkMode
           ? BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Colors.gray[950], Colors.blue[950], Colors.gray[900]],
-              ),
-            )
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.gray[950], Colors.blue[950], Colors.gray[900]],
+        ),
+      )
           : BoxDecoration(color: Colors.gray[50]),
       width: double.infinity,
       child: Column(
@@ -135,9 +145,9 @@ class _HeroSectionState extends State<HeroSection> {
                 final availableWidth = constraints.maxWidth;
 
                 final columns =
-                    ((availableWidth + spacing) / (minCardWidth + spacing))
-                        .floor()
-                        .clamp(1, maxColumns);
+                ((availableWidth + spacing) / (minCardWidth + spacing))
+                    .floor()
+                    .clamp(1, maxColumns);
 
                 return GridView.builder(
                   shrinkWrap: true,
@@ -204,6 +214,7 @@ class _HeroSectionState extends State<HeroSection> {
   }
 }
 
+/// Immutable data object used to render a single hero feature card.
 class _HeroCards {
   const _HeroCards({
     required this.icon,
@@ -211,7 +222,12 @@ class _HeroCards {
     required this.text,
   });
 
+  /// Feature icon.
   final IconData icon;
+
+  /// Feature title.
   final String title;
+
+  /// Short feature description.
   final String text;
 }

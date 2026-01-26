@@ -7,9 +7,19 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../models/footer_link_model.dart';
 
+/// Bottom section of the footer.
+///
+/// Displays:
+/// - a row of small "utility" links (internal routes or external URLs)
+/// - copyright
+/// - an optional informational hint below the links (see [FooterSettings.hint])
 class FooterBottomArea extends StatelessWidget {
   const FooterBottomArea({super.key});
 
+  /// Handles navigation for a given footer link.
+  ///
+  /// - Uses `go_router` if [FooterLinkModel.route] is set.
+  /// - Uses `url_launcher` if [FooterLinkModel.url] is set.
   void _onPressed(BuildContext context, FooterLinkModel link) async {
     if (link.route != null) {
       context.goNamed(link.route!);
@@ -23,24 +33,26 @@ class FooterBottomArea extends StatelessWidget {
     }
   }
 
+  /// Builds the link row.
   Widget _getLinks(BuildContext context) => Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: FooterSettings.copyrightLinks
         .map(
           (link) => (Button(
-            style: ButtonStyle.text(density: ButtonDensity.compact)
-                .withPadding(padding: EdgeInsets.zero)
-                .withForegroundColor(
-                  color: Colors.gray[400],
-                  hoverColor: Colors.white,
-                ),
-            onPressed: () => _onPressed(context, link),
-            child: Text(link.title),
-          )),
-        )
+        style: ButtonStyle.text(density: ButtonDensity.compact)
+            .withPadding(padding: EdgeInsets.zero)
+            .withForegroundColor(
+          color: Colors.gray[400],
+          hoverColor: Colors.white,
+        ),
+        onPressed: () => _onPressed(context, link),
+        child: Text(link.title),
+      )),
+    )
         .toList(),
   ).gap(20);
 
+  /// Builds the copyright block.
   Widget _getCopyright() => Column(
     children: [
       Text(
@@ -60,13 +72,12 @@ class FooterBottomArea extends StatelessWidget {
         Responsive.isMobile(context)
             ? Column(children: [_getLinks(context), _getCopyright()]).gap(15)
             : Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [_getLinks(context), _getCopyright()],
-              ),
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [_getLinks(context), _getCopyright()],
+        ),
         if (info != null) ...[
           Gap(24),
           Container(
-            width: double.infinity,
             decoration: BoxDecoration(
               color: Colors.gray[800].withAlpha(128),
               borderRadius: BorderRadius.circular(10),

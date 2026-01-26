@@ -7,11 +7,22 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../extensions/text_extensions.dart';
 import '../responsive.dart';
 
+/// Renders a footer link section (title + list of clickable links).
+///
+/// Behavior:
+/// - If [FooterLinkModel.route] is set, the link is treated as an internal route
+///   and navigated via `go_router` (`context.goNamed(...)`).
+/// - If [FooterLinkModel.url] is set, the link is treated as an external URL and
+///   opened via `url_launcher`.
+///
+/// If [section] is `null`, this widget renders nothing.
 class FooterLinks extends StatelessWidget {
   const FooterLinks({super.key, required this.section});
 
+  /// Section definition to render. If null, the widget returns `SizedBox.shrink()`.
   final FooterLinkSectionModel? section;
 
+  /// Handles internal routing and external URL launching for a given link.
   void _onPressed(BuildContext context, FooterLinkModel link) async {
     if (link.route != null) {
       context.goNamed(link.route!);
@@ -39,13 +50,13 @@ class FooterLinks extends StatelessWidget {
       children: [
         Text(section!.title).h4.semiBold.setColors(lightColor: Colors.white),
         ...section!.links.map(
-          (link) => (Button(
+              (link) => (Button(
             style: ButtonStyle.text(density: ButtonDensity.compact)
                 .withPadding(padding: EdgeInsets.zero)
                 .withForegroundColor(
-                  color: Colors.gray[400],
-                  hoverColor: Colors.white,
-                ),
+              color: Colors.gray[400],
+              hoverColor: Colors.white,
+            ),
             onPressed: () => _onPressed(context, link),
             child: Text(link.title),
           )),
