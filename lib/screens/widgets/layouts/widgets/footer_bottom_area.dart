@@ -66,6 +66,7 @@ class FooterBottomArea extends StatelessWidget {
         if (info != null) ...[
           Gap(24),
           Container(
+            width: double.infinity,
             decoration: BoxDecoration(
               color: Colors.gray[800].withAlpha(128),
               borderRadius: BorderRadius.circular(10),
