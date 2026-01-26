@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../extensions/button_extensions.dart';
 import '../../light_button.dart';
-import '../models/navigation_item.dart';
+import '../models/navigation_item_model.dart';
 
 class TopNavigation extends StatelessWidget {
   const TopNavigation({
@@ -18,7 +18,7 @@ class TopNavigation extends StatelessWidget {
 
   final StatefulNavigationShell navigationShell;
 
-  void _onPressed(NavigationItem item) async {
+  void _onPressed(NavigationItemModel item) async {
     if (item.onPressed != null) {
       item.onPressed!();
       return;

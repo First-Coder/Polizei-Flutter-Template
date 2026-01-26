@@ -3,7 +3,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 /// Immutable model that represents a single entry in the app's navigation UI
 /// (e.g. sidebar, drawer, or a menu list).
 ///
-/// A [NavigationItem] can be:
+/// A [NavigationItemModel] can be:
 /// - a **leaf item** that performs an action when selected (via [onPressed]), or
 /// - a **group item** that contains nested entries (via [children]).
 ///
@@ -17,7 +17,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 /// - If [children] is not empty, the UI usually treats the item as expandable.
 /// - This model intentionally does not hardcode routing concepts (route names/paths).
 ///   Those can live in [onPressed] (internal) or [url] (external).
-class NavigationItem {
+class NavigationItemModel {
   /// Creates a navigation item.
   ///
   /// Required:
@@ -34,7 +34,7 @@ class NavigationItem {
   /// Recommended constraints (not enforced by code):
   /// - Prefer either [children] **or** [onPressed] for a given item.
   /// - If [isExternal] is `true`, provide a non-null [url].
-  const NavigationItem({
+  const NavigationItemModel({
     required this.title,
     required this.index,
     this.icon,
@@ -56,7 +56,7 @@ class NavigationItem {
   /// Child entries for hierarchical navigation.
   ///
   /// If this list is non-empty, UIs typically render this item as a group/section.
-  final List<NavigationItem> children;
+  final List<NavigationItemModel> children;
 
   /// Whether the item should be treated as an external destination.
   ///

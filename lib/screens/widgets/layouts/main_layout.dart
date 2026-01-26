@@ -2,6 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:police_flutter_template/extensions/text_extensions.dart';
+import 'package:police_flutter_template/screens/widgets/layouts/widgets/footer_bottom_area.dart';
+import 'package:police_flutter_template/screens/widgets/layouts/widgets/footer_top_area.dart';
 import 'package:police_flutter_template/screens/widgets/layouts/widgets/sidebar_navigation.dart';
 import 'package:police_flutter_template/screens/widgets/layouts/widgets/top_navigation.dart';
 import 'package:police_flutter_template/screens/widgets/light_button.dart';
@@ -59,17 +61,10 @@ class _MainLayoutState extends State<MainLayout> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: Colors.blue[800],
-                            shape: BoxShape.circle,
-                          ),
-                          child: SvgPicture.asset(
-                            'assets/logo/polizeistern.svg',
-                            height: 40,
-                            semanticsLabel: 'Berliner Polizei Logo',
-                          ),
+                        SvgPicture.asset(
+                          'assets/logo/polizeistern.svg',
+                          height: 50,
+                          semanticsLabel: 'Berliner Polizei Logo',
                         ),
                         Gap(15),
                         Column(
@@ -222,7 +217,38 @@ class _MainLayoutState extends State<MainLayout> {
           ],
           child: Stack(
             children: [
-              widget.navigationShell,
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    // Content
+                    widget.navigationShell,
+                    // Footer
+                    SizedBox(
+                      width: double.infinity,
+                      child: ColoredBox(
+                        color: Colors.gray[900],
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(maxWidth: 1280),
+                            child: Column(
+                              children: [
+                                Gap(48),
+                                FooterTopArea(),
+                                Divider(
+                                  color: Colors.gray[700],
+                                ).withPadding(vertical: 25),
+                                FooterBottomArea(),
+                                Gap(48),
+                              ],
+                            ),
+                          ).withPadding(horizontal: 20),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               if (showSearch) ...[
                 Positioned.fill(
                   child: GestureDetector(

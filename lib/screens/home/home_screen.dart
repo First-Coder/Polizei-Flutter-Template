@@ -6,6 +6,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(child: Column(mainAxisSize: MainAxisSize.max, children: [HeroSection()]));
+    return Column(mainAxisSize: MainAxisSize.max, children: [HeroSection()]);
   }
 }

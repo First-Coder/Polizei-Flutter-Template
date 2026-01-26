@@ -1,12 +1,12 @@
 import 'package:go_router/go_router.dart';
-import 'package:police_flutter_template/screens/widgets/layouts/models/navigation_item.dart';
+import 'package:police_flutter_template/screens/widgets/layouts/models/navigation_item_model.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart' hide NavigationItem;
 
 import '../routes/route_names.dart';
 
 /// Factory/provider for the application's navigation tree.
 ///
-/// This class builds a list of [NavigationItem] definitions that can be rendered
+/// This class builds a list of [NavigationItemModel] definitions that can be rendered
 /// by a layout (e.g. sidebar/drawer).
 ///
 /// Why it needs a [BuildContext]:
@@ -29,20 +29,20 @@ class NavigationItems {
 
   /// The static navigation definition for the app.
   ///
-  /// - Leaf items provide [NavigationItem.onPressed].
-  /// - Group items provide [NavigationItem.children].
-  List<NavigationItem> get items => [
-    NavigationItem(
+  /// - Leaf items provide [NavigationItemModel.onPressed].
+  /// - Group items provide [NavigationItemModel.children].
+  List<NavigationItemModel> get items => [
+    NavigationItemModel(
       index: 0,
       title: "Home",
       icon: const Icon(LucideIcons.house),
       onPressed: () => context.goNamed(RouteNames.home),
     ),
-    NavigationItem(
+    NavigationItemModel(
       index: null,
       title: "Components",
       children: [
-        NavigationItem(
+        NavigationItemModel(
           index: 1,
           title: "Buttons",
           icon: const Icon(LucideIcons.component),
@@ -50,7 +50,7 @@ class NavigationItems {
         ),
       ],
     ),
-    NavigationItem(
+    NavigationItemModel(
       index: null,
       icon: const Icon(LucideIcons.code),
       title: "Flutter ShadCn",

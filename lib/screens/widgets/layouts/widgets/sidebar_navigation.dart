@@ -5,7 +5,7 @@ import 'package:police_flutter_template/screens/widgets/light_button.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart' hide NavigationItem;
 import 'package:url_launcher/url_launcher.dart';
 
-import '../models/navigation_item.dart';
+import '../models/navigation_item_model.dart';
 import '../../../../settings/navigation_items.dart';
 import '../../../../theme/cubit/theme_cubit.dart';
 
@@ -23,7 +23,7 @@ class SidebarNavigation extends StatelessWidget {
 
   final NavigationItems navigationItems;
 
-  void _onPressed(NavigationItem item) async {
+  void _onPressed(NavigationItemModel item) async {
     if (item.onPressed != null) {
       item.onPressed!();
       return;
