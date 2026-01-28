@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:police_flutter_template/extensions/text_extensions.dart';
 import 'package:police_flutter_template/screens/widgets/layouts/responsive.dart';
 import 'package:police_flutter_template/settings/footer_settings.dart';
@@ -13,8 +14,33 @@ import '../models/footer_link_model.dart';
 /// - a row of small "utility" links (internal routes or external URLs)
 /// - copyright
 /// - an optional informational hint below the links (see [FooterSettings.hint])
-class FooterBottomArea extends StatelessWidget {
+class FooterBottomArea extends StatefulWidget {
   const FooterBottomArea({super.key});
+
+  @override
+  State<FooterBottomArea> createState() => _FooterBottomAreaState();
+}
+
+class _FooterBottomAreaState extends State<FooterBottomArea> {
+  /// App version shown in the footer (loaded asynchronously).
+  String _version = '0.0.0';
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Load app metadata such as version/build number for display.
+    _loadAppInfo();
+  }
+
+  /// Loads app information (e.g. version) from the underlying platform.
+  Future<void> _loadAppInfo() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    if (!mounted) return;
+    setState(() {
+      _version = packageInfo.version;
+    });
+  }
 
   /// Handles navigation for a given footer link.
   ///
@@ -22,7 +48,7 @@ class FooterBottomArea extends StatelessWidget {
   /// - Uses `url_launcher` if [FooterLinkModel.url] is set.
   void _onPressed(BuildContext context, FooterLinkModel link) async {
     if (link.route != null) {
-      context.goNamed(link.route!);
+      context.pushNamed(link.route!);
     }
     if (link.url != null) {
       final uri = Uri.parse(link.url!);
@@ -59,7 +85,7 @@ class FooterBottomArea extends StatelessWidget {
         '© ${DateTime.now().year} Polizei Berlin',
       ).small.setColors(lightColor: Colors.white.withAlpha(220)),
       Text(
-        'Alle Rechte vorbehalten',
+        '${_version == "0.0.0" ? '' : 'v$_version | '}Alle Rechte vorbehalten',
       ).xSmall.setColors(lightColor: Colors.gray[500]),
     ],
   ).gap(5);

@@ -11,7 +11,7 @@ import '../responsive.dart';
 ///
 /// Behavior:
 /// - If [FooterLinkModel.route] is set, the link is treated as an internal route
-///   and navigated via `go_router` (`context.goNamed(...)`).
+///   and navigated via `go_router` (`context.pushNamed(...)`).
 /// - If [FooterLinkModel.url] is set, the link is treated as an external URL and
 ///   opened via `url_launcher`.
 ///
@@ -25,7 +25,7 @@ class FooterLinks extends StatelessWidget {
   /// Handles internal routing and external URL launching for a given link.
   void _onPressed(BuildContext context, FooterLinkModel link) async {
     if (link.route != null) {
-      context.goNamed(link.route!);
+      context.pushNamed(link.route!);
     }
     if (link.url != null) {
       final uri = Uri.parse(link.url!);

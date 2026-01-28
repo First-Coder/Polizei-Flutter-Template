@@ -20,6 +20,6 @@ class FooterLinkModel {
   /// External destination URL (opened via browser).
   final String? url;
 
-  /// Internal route name (used by `go_router`, typically with `goNamed`).
+  /// Internal route name (used by `go_router`, typically with `pushNamed`).
   final String? route;
 }

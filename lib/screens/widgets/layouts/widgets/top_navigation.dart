@@ -77,20 +77,23 @@ class TopNavigation extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: item.children
                             .map(
-                              (subItem) => (LightButton(
-                                onPressed: () => _onPressed(subItem),
-                                isIcon: false,
-                                isActive:
-                                    subItem.index ==
-                                    navigationShell.currentIndex,
-                                borderRadius: 0,
-                                leading: subItem.icon,
-                                child: Text(subItem.title),
-                              )),
+                              (subItem) => SizedBox(
+                                width: double.infinity,
+                                child: LightButton(
+                                  onPressed: () => _onPressed(subItem),
+                                  isIcon: false,
+                                  isActive:
+                                      subItem.index ==
+                                      navigationShell.currentIndex,
+                                  borderRadius: 0,
+                                  leading: subItem.icon,
+                                  child: Text(subItem.title),
+                                ),
+                              ),
                             )
                             .toList(),
-                      ),
-                    );
+                      ).gap(5),
+                    ).intrinsicWidth();
                   },
                 )),
           )

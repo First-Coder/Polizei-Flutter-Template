@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:police_flutter_template/routes/route_names.dart';
 import 'package:police_flutter_template/screens/auth/auth_not_initialized_screen.dart';
 import 'package:police_flutter_template/screens/components/buttons/buttons_screen.dart';
+import 'package:police_flutter_template/screens/error_pages/not_found_screen.dart';
 import 'package:police_flutter_template/screens/home/home_screen.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -40,7 +41,7 @@ class RouteConfig {
                   'Die angeforderte Seite konnte nicht gefunden werden.',
                 ).h4,
                 PrimaryButton(
-                  onPressed: () => context.goNamed(RouteNames.home),
+                  onPressed: () => context.pushNamed(RouteNames.home),
                   child: const Text('Zurück zum Dashboard'),
                 ),
               ],
@@ -48,8 +49,6 @@ class RouteConfig {
           ),
         );
       },
-
-      // refreshListenable: GoRouterRefreshStream(),
 
       /// Central redirect hook.
       ///
@@ -134,6 +133,11 @@ class RouteConfig {
 
           /// Initialization screen runs startup tasks and navigates afterwards.
           builder: (context, state) => const AuthNotInitializedScreen(),
+        ),
+        GoRoute(
+          name: RouteNames.notFound,
+          path: RouteNames.notFoundUrl,
+          builder: (context, state) => NotFoundScreen(),
         ),
         StatefulShellRoute.indexedStack(
           /// Provides a persistent shell layout (e.g. app bar) around branches.

@@ -94,7 +94,11 @@ class _AuthNotInitializedScreenState extends State<AuthNotInitializedScreen> {
             ? null
             : widget.from);
     if (state is Authorized) {
-      context.go(fromUrl ?? RouteNames.homeUrl);
+      context.go(
+        fromUrl == RouteNames.initializeUrl
+            ? RouteNames.homeUrl
+            : fromUrl ?? RouteNames.homeUrl,
+      );
     }
   }
 

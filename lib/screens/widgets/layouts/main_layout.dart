@@ -37,7 +37,10 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final navigationItems = NavigationItems(context: context);
+    final navigationItems = NavigationItems(
+      context: context,
+      navigationShell: widget.navigationShell,
+    );
 
     final isDarkMode = context.watch<ThemeCubit>().state.isDarkMode;
 

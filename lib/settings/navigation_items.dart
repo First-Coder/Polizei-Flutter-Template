@@ -10,7 +10,7 @@ import '../routes/route_names.dart';
 /// by a layout (e.g. sidebar/drawer).
 ///
 /// Why it needs a [BuildContext]:
-/// The navigation actions use `go_router` (e.g. `context.goNamed(...)`), so the
+/// The navigation actions use `go_router` (e.g. `context.pushNamed(...)`), so the
 /// current widget context is required to build [onPressed] callbacks.
 ///
 /// Note:
@@ -18,10 +18,12 @@ import '../routes/route_names.dart';
 /// `hide NavigationItem` to avoid a name collision with the local model.
 class NavigationItems {
   /// Creates a navigation item provider for the given [context].
-  const NavigationItems({required this.context});
+  const NavigationItems({required this.context, required this.navigationShell});
 
   /// The context used to construct navigation callbacks (e.g. `go_router` calls).
   final BuildContext context;
+
+  final StatefulNavigationShell navigationShell;
 
   final useTopNavigation = true;
 
@@ -36,7 +38,10 @@ class NavigationItems {
       index: 0,
       title: "Home",
       icon: const Icon(LucideIcons.house),
-      onPressed: () => context.goNamed(RouteNames.home),
+      onPressed: () => navigationShell.goBranch(
+        0,
+        initialLocation: false,
+      ),
     ),
     NavigationItemModel(
       index: null,
@@ -46,7 +51,16 @@ class NavigationItems {
           index: 1,
           title: "Buttons",
           icon: const Icon(LucideIcons.component),
-          onPressed: () => context.goNamed(RouteNames.buttons),
+          onPressed: () => navigationShell.goBranch(
+            1,
+            initialLocation: false,
+          ),
+        ),
+        NavigationItemModel(
+          index: null,
+          title: "Not Found - Standalone",
+          icon: const Icon(LucideIcons.fileQuestion),
+          onPressed: () => context.pushNamed(RouteNames.notFound),
         ),
       ],
     ),
