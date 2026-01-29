@@ -21,7 +21,13 @@ class NotFoundScreen extends StatelessWidget {
               : [Colors.blue[50], Colors.gray[100]],
         ),
       ),
-      children: [NotFoundCard(withShadow: true)],
+      children: [
+        NotFoundCard(
+          withShadow: true,
+          color: Colors.gray[300],
+          darkColor: Colors.gray[600],
+        ),
+      ],
     );
   }
 }

@@ -32,7 +32,7 @@ class _HeroSectionState extends State<HeroSection> {
       icon: LucideIcons.palette,
       title: "Polizei-Blau Design System",
       text:
-      "Professionelles Farbschema mit Berlin Polizei Blau als Primärfarbe",
+          "Professionelles Farbschema mit Berlin Polizei Blau als Primärfarbe",
     ),
     _HeroCards(
       icon: LucideIcons.moon,
@@ -84,12 +84,12 @@ class _HeroSectionState extends State<HeroSection> {
     return Container(
       decoration: isDarkMode
           ? BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.gray[950], Colors.blue[950], Colors.gray[900]],
-        ),
-      )
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.gray[950], Colors.blue[950], Colors.gray[900]],
+              ),
+            )
           : BoxDecoration(color: Colors.gray[50]),
       width: double.infinity,
       child: Column(
@@ -97,9 +97,10 @@ class _HeroSectionState extends State<HeroSection> {
           Gap(64),
           PrimaryBadge(child: Text('Flutter Template v.$_version')),
           Gap(5),
-          Text(
-            'Polizei Berlin',
-          ).x5Large.h1.setColors(lightColor: Colors.gray[800], darkColor: Colors.white),
+          Text('Polizei Berlin').x5Large.h1.setColors(
+            lightColor: Colors.gray[800],
+            darkColor: Colors.white,
+          ),
           Text('Design Template').x5Large.h1.setColors(
             lightColor: Colors.blue[800],
             darkColor: Colors.blue[400],
@@ -145,9 +146,9 @@ class _HeroSectionState extends State<HeroSection> {
                 final availableWidth = constraints.maxWidth;
 
                 final columns =
-                ((availableWidth + spacing) / (minCardWidth + spacing))
-                    .floor()
-                    .clamp(1, maxColumns);
+                    ((availableWidth + spacing) / (minCardWidth + spacing))
+                        .floor()
+                        .clamp(1, maxColumns);
 
                 return GridView.builder(
                   shrinkWrap: true,
@@ -196,7 +197,9 @@ class _HeroSectionState extends State<HeroSection> {
                         ),
                       ),
                     ).withHoverEffect(
-                      borderColor: Colors.gray[300],
+                      borderColor: isDarkMode
+                          ? Colors.gray[600]
+                          : Colors.gray[300],
                       hoverBorderColor: isDarkMode
                           ? Colors.blue[700]
                           : Colors.blue[900],

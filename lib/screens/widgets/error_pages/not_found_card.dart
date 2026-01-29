@@ -11,6 +11,8 @@ class NotFoundCard extends StatelessWidget {
   const NotFoundCard({
     super.key,
     this.possibleReasons,
+    this.color,
+    this.darkColor,
     this.withShadow = false,
   });
 
@@ -18,24 +20,34 @@ class NotFoundCard extends StatelessWidget {
 
   final bool withShadow;
 
+  final Color? color;
+
+  final Color? darkColor;
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = context.watch<ThemeCubit>().state.isDarkMode;
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: 720),
-      child: OutlinedContainer(
+      child: Card(
         boxShadow: withShadow
-            ? const [
-                BoxShadow(
-                  color: Color.fromRGBO(0, 0, 0, 0.25),
-                  offset: Offset(0, 0),
-                  blurRadius: 50,
-                  spreadRadius: -12,
-                ),
+            ? [
+                isDarkMode
+                    ? BoxShadow(
+                        color: Color.fromRGBO(255, 255, 255, 0.25),
+                        offset: Offset(0, 0),
+                        blurRadius: 50,
+                        spreadRadius: -12,
+                      )
+                    : BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.25),
+                        offset: Offset(0, 0),
+                        blurRadius: 50,
+                        spreadRadius: -12,
+                      ),
               ]
             : null,
-        width: double.infinity,
-        borderColor: isDarkMode ? null : Colors.gray[200],
+        borderColor: isDarkMode ? darkColor : color,
         borderWidth: 2,
         child: Column(
           children: [

@@ -42,6 +42,7 @@ final ThemeData lightTheme = ThemeData(
 final ColorScheme dark = ColorSchemes.darkBlue.copyWith(
   primary: () => Colors.blue[700],
   primaryForeground: () => Colors.white,
+  card: () => Colors.gray[800],
   // card: () => const HSLColor.fromAHSL(1, 222.2, 0.84, 0.1).toColor(),
   // background: const Color(0xFF1F2327),
   // card: const Color(0xFF282E32),
