@@ -17,12 +17,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # Note: This workflow uses the latest stable version of the Dart SDK.
-      # You can specify other versions if desired, see documentation here:
-      # https://github.com/dart-lang/setup-dart/blob/main/README.md
-      # - uses: dart-lang/setup-dart@v1
-      - name: Set up Flutter
-        uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+      - name: Install Flutter SDK
+        # You may pin to the exact commit or the version.
+        # uses: monterail/flutter-action@8c0b4ae773b3a43022bbac48c30d7c67574bc2e6
+        uses: monterail/flutter-action@v1
+        with:
+          # Desired Flutter channel
+          channel: # optional, default is stable
+          
 
       - name: Install dependencies
         run: flutter pub get
