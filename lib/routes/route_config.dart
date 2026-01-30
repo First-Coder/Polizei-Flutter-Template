@@ -11,6 +11,7 @@ import 'package:talker_flutter/talker_flutter.dart';
 
 import '../bloc/auth/auth_bloc.dart';
 import '../logs/route_log.dart';
+import '../screens/error_pages/not_authorized_screen.dart';
 import '../screens/widgets/layouts/main_layout.dart';
 import 'cubit/router_cubit.dart';
 
@@ -138,6 +139,11 @@ class RouteConfig {
           name: RouteNames.notFound,
           path: RouteNames.notFoundUrl,
           builder: (context, state) => NotFoundScreen(),
+        ),
+        GoRoute(
+          name: RouteNames.notAuthorized,
+          path: RouteNames.notAuthorizedUrl,
+          builder: (context, state) => NotAuthorizedScreen(),
         ),
         StatefulShellRoute.indexedStack(
           /// Provides a persistent shell layout (e.g. app bar) around branches.

@@ -58,9 +58,15 @@ class NavigationItems {
         ),
         NavigationItemModel(
           index: null,
-          title: "Not Found - Standalone",
+          title: "404 Nicht gefunden - Standalone",
           icon: const Icon(LucideIcons.fileQuestion),
           onPressed: () => context.pushNamed(RouteNames.notFound),
+        ),
+        NavigationItemModel(
+          index: null,
+          title: "403 Nicht autorisiert - Standalone",
+          icon: const Icon(LucideIcons.fileQuestion),
+          onPressed: () => context.pushNamed(RouteNames.notAuthorized),
         ),
       ],
     ),

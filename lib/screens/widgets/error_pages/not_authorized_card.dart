@@ -1,22 +1,22 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:police_flutter_template/extensions/text_extensions.dart';
-import 'package:police_flutter_template/screens/widgets/icon_container.dart';
-import 'package:police_flutter_template/settings/error_settings.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+import '../../../extensions/text_extensions.dart';
+import '../../../settings/error_settings.dart';
 import '../../../theme/cubit/theme_cubit.dart';
+import '../icon_container.dart';
 
-class NotFoundCard extends StatelessWidget {
-  const NotFoundCard({
+class NotAuthorizedCard extends StatelessWidget {
+  const NotAuthorizedCard({
     super.key,
-    this.possibleReasons,
+    this.accessInformations,
     this.color,
     this.darkColor,
     this.withShadow = false,
   });
 
-  final List<String>? possibleReasons;
+  final List<String>? accessInformations;
 
   final bool withShadow;
 
@@ -52,19 +52,19 @@ class NotFoundCard extends StatelessWidget {
         child: Column(
           children: [
             IconContainer(
-              color: Colors.blue[100],
-              darkColor: Colors.blue[900].withAlpha(100),
-              icon: LucideIcons.fileQuestion,
-              iconColor: Colors.blue[900],
-              iconDarkColor: Colors.blue[400],
+              color: Colors.orange[100],
+              darkColor: Colors.orange[900].withAlpha(100),
+              icon: LucideIcons.shieldAlert,
+              iconColor: Colors.orange[600],
+              iconDarkColor: Colors.orange[400],
             ),
             Gap(24),
-            Text('404').bold.x8Large.setColors(
-              lightColor: Colors.blue[900],
-              darkColor: Colors.blue[400],
+            Text('403').bold.x8Large.setColors(
+              lightColor: Colors.orange[600],
+              darkColor: Colors.orange[400],
             ),
             Gap(8),
-            Text('Seite nicht gefunden').bold.x3Large.setColors(
+            Text('Zugriff verweigert').bold.x3Large.setColors(
               lightColor: Colors.gray[900],
               darkColor: Colors.white,
             ),
@@ -73,7 +73,7 @@ class NotFoundCard extends StatelessWidget {
               constraints: BoxConstraints(maxWidth: 440),
               child:
                   Text(
-                    'Die von Ihnen gesuchte Seite existiert nicht oder wurde verschoben.',
+                    'Sie haben keine Berechtigung, auf diese Seite oder Ressource zuzugreifen.',
                     textAlign: TextAlign.center,
                   ).large.setColors(
                     lightColor: Colors.gray[600],
@@ -87,20 +87,33 @@ class NotFoundCard extends StatelessWidget {
                 padding: EdgeInsets.all(24),
                 filled: true,
                 fillColor: isDarkMode
-                    ? Colors.blue[900].withAlpha(25)
-                    : Colors.blue[50],
+                    ? Colors.orange[900].withAlpha(25)
+                    : Colors.orange[50],
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Mögliche Gründe:').semiBold.setColors(
-                      lightColor: Colors.gray[900],
-                      darkColor: Colors.white,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          LucideIcons.lock,
+                          color: isDarkMode
+                              ? Colors.orange[400]
+                              : Colors.orange[600],
+                        ),
+                        Gap(10),
+                        Text('Zugriffsinformationen').h4.setColors(
+                          lightColor: Colors.gray[900],
+                          darkColor: Colors.white,
+                        ),
+                      ],
                     ),
                     Gap(12),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:
-                          (possibleReasons ?? ErrorSettings.notFoundReasons)
+                          (accessInformations ??
+                                  ErrorSettings.accessInformations)
                               .map(
                                 (reason) => Text(reason).li.setColors(
                                   lightColor: Colors.gray[600],
@@ -108,7 +121,7 @@ class NotFoundCard extends StatelessWidget {
                                 ),
                               )
                               .toList(),
-                    ),
+                    ).gap(5),
                   ],
                 ),
               ),
@@ -125,7 +138,7 @@ class NotFoundCard extends StatelessWidget {
                 ),
                 PrimaryButton(
                   onPressed: () =>
-                      context.goNamed(ErrorSettings.notFoundHomeLink),
+                      context.goNamed(ErrorSettings.accessInformationHomeLink),
                   leading: const Icon(LucideIcons.house),
                   child: Text('Zur Startseite'),
                 ),

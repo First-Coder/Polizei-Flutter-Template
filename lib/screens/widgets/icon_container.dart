@@ -43,7 +43,7 @@ class IconContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(999),
       ),
       child: Icon(
-        LucideIcons.fileQuestion,
+        icon,
         size: 48,
         color: darkColor != null && isDarkMode ? iconDarkColor : iconColor,
       ),
