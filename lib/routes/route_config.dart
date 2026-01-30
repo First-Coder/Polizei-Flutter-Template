@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:police_flutter_template/routes/route_names.dart';
 import 'package:police_flutter_template/screens/auth/auth_not_initialized_screen.dart';
 import 'package:police_flutter_template/screens/components/buttons/buttons_screen.dart';
+import 'package:police_flutter_template/screens/error_pages/internal_server_error_screen.dart';
 import 'package:police_flutter_template/screens/error_pages/not_found_screen.dart';
 import 'package:police_flutter_template/screens/home/home_screen.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
@@ -144,6 +145,11 @@ class RouteConfig {
           name: RouteNames.notAuthorized,
           path: RouteNames.notAuthorizedUrl,
           builder: (context, state) => NotAuthorizedScreen(),
+        ),
+        GoRoute(
+          name: RouteNames.internalServerError,
+          path: RouteNames.internalServerErrorUrl,
+          builder: (context, state) => InternalServerErrorScreen(),
         ),
         StatefulShellRoute.indexedStack(
           /// Provides a persistent shell layout (e.g. app bar) around branches.

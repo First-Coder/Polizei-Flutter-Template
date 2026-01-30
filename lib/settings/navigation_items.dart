@@ -68,6 +68,12 @@ class NavigationItems {
           icon: const Icon(LucideIcons.fileQuestion),
           onPressed: () => context.pushNamed(RouteNames.notAuthorized),
         ),
+        NavigationItemModel(
+          index: null,
+          title: "500 Internal Server Error - Standalone",
+          icon: const Icon(LucideIcons.serverCrash),
+          onPressed: () => context.pushNamed(RouteNames.internalServerError),
+        ),
       ],
     ),
     NavigationItemModel(

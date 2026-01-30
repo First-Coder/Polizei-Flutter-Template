@@ -16,4 +16,18 @@ class ErrorSettings {
     "Ihre Anmeldedaten haben nicht die erforderlichen Berechtigungen",
     "Wenden Sie sich an Ihren Administrator für Zugriff",
   ];
+
+  static String internalServerErrorHomeLink = RouteNames.home;
+
+  static List<String> internalServerErrorWhatHappend = [
+    "Ein technischer Fehler ist auf dem Server aufgetreten",
+    "Ihre Anfrage konnte nicht verarbeitet werden",
+    "Das Problem wurde automatisch an unser IT-Team gemeldet",
+  ];
+
+  static List<String> internalServerErrorHelp = [
+    "Laden Sie die Seite neu",
+    "Versuchen Sie es in einigen Minuten erneut",
+    "Kehren Sie zur Startseite zurück",
+  ];
 }

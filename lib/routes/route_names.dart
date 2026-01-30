@@ -12,6 +12,9 @@ class RouteNames {
   static const String notAuthorized = "not-authorized";
   static const String notAuthorizedUrl = '/$notAuthorized';
 
+  static const String internalServerError = "internal-server-error";
+  static const String internalServerErrorUrl = '/$internalServerError';
+
   // Components
   static const String buttons = "buttons";
   static const String buttonsUrl = '/$buttons';
