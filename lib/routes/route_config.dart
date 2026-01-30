@@ -36,18 +36,7 @@ class RouteConfig {
         return MaterialPage(
           key: state.pageKey,
           child: Scaffold(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  'Die angeforderte Seite konnte nicht gefunden werden.',
-                ).h4,
-                PrimaryButton(
-                  onPressed: () => context.pushNamed(RouteNames.home),
-                  child: const Text('Zurück zum Dashboard'),
-                ),
-              ],
-            ).gap(10).center(),
+            child: NotFoundScreen(),
           ),
         );
       },
