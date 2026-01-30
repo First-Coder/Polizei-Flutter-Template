@@ -56,6 +56,7 @@ class _FullScreenLayoutState extends State<FullScreenLayout> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Gap(32),
                           // Header with logo
                           Row(
                             mainAxisSize: MainAxisSize.min,
