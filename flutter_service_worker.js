@@ -16,7 +16,7 @@ const RESOURCES = {"flutter.js": "24bc71911b75b5f8135c949e27a2984e",
 "assets/AssetManifest.bin.json": "e838807ee748ce0e6b0d86bde668b6c8",
 "assets/assets/logo/polizeistern.svg": "631f365bf0fca5ba6312af6be0931ff3",
 "assets/fonts/MaterialIcons-Regular.otf": "11e987c2fc60e993d1ac47184c141758",
-"assets/NOTICES": "c5e69d0743a92e6ee7fc8e74219678a3",
+"assets/NOTICES": "cdbe917209ced7aa1a0b2108b97e66de",
 "assets/packages/lucide_icons_flutter/assets/build_font/LucideVariable-w200.ttf": "ec96823778368b52fc11cf4783817d1a",
 "assets/packages/lucide_icons_flutter/assets/build_font/LucideVariable-w600.ttf": "fc1802abe1648db99f620b08cd3bf5e6",
 "assets/packages/lucide_icons_flutter/assets/build_font/LucideVariable-w100.ttf": "e1d35a483b2be6aecf3e92e7de9ffdac",
@@ -343,9 +343,9 @@ const RESOURCES = {"flutter.js": "24bc71911b75b5f8135c949e27a2984e",
 "canvaskit/canvaskit.js.symbols": "a3c9f77715b642d0437d9c275caba91e",
 "canvaskit/skwasm.js.symbols": "3a4aadf4e8141f284bd524976b1d6bdc",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
-"flutter_bootstrap.js": "277db19a1a1c0e0923760360eeb3255e",
+"flutter_bootstrap.js": "32d6cb75876247cb748fa2e0e7810e19",
 "version.json": "1b44ff0a78c3860c79ab368afb07380d",
-"main.dart.js": "b439d202966b99d9c9d0314cf404e2d3"};
+"main.dart.js": "d86dfa5d3233e52d25ed5e3f24d7f787"};
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = ["main.dart.js",
