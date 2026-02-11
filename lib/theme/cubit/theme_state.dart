@@ -1,14 +1,27 @@
 part of 'theme_cubit.dart';
 
 /// The berlin police blue color scheme.
-final berlinPoliceBlue = ColorShades.fromAccent(Color(0xFF005A8C));
+final berlinPoliceBlue = ColorShades.fromMap({
+  50: Colors.transparent,
+  100: Color.fromRGBO(232, 237, 245, 1),
+  200: Color.fromRGBO(207, 220, 229, 1),
+  300: Color.fromRGBO(155, 198, 222, 1),
+  400: Color.fromRGBO(118, 164, 215, 1),
+  500: Color.fromRGBO(17, 68, 170, 1),
+  600: Color.fromRGBO(0, 51, 153, 1),
+  700: Color.fromRGBO(0, 42, 128, 1),
+  800: Color.fromRGBO(22, 62, 101, 1),
+  900: Colors.transparent,
+  950: Colors.transparent,
+});
 
 /// The radius of the buttons, cards etc.
 final double radius = 0.5;
 
 /// The light theme color scheme.
-final ColorScheme light = ColorSchemes.lightBlue.copyWith(
+final ColorScheme light = ColorSchemes.lightSlate.blue.copyWith(
   primary: () => Colors.blue[900],
+  primaryForeground: () => Colors.white,
   // card: () => const Color(0xFFF6F6F6),
   // background: () => const Color(0xFFE3E4E7),
   // border: () => const Color(0xFFC4C6C6),
@@ -39,7 +52,7 @@ final ThemeData lightTheme = ThemeData(
 );
 
 /// The dark theme color scheme.
-final ColorScheme dark = ColorSchemes.darkBlue.copyWith(
+final ColorScheme dark = ColorSchemes.darkSlate.blue.copyWith(
   primary: () => Colors.blue[700],
   primaryForeground: () => Colors.white,
   card: () => Colors.gray[800],
