@@ -1,27 +1,35 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../extensions/text_extensions.dart';
 import '../../../theme/cubit/theme_cubit.dart';
 
-class TechnologyStack extends StatelessWidget {
-  const TechnologyStack({super.key});
+class AdditionalResources extends StatelessWidget {
+  const AdditionalResources({super.key});
 
-  /// Static list of stack cards displayed in the stack grid.
-  final List<_StackCard> _stackCards = const [
-    _StackCard(title: "Flutter", text: "aktueller Stable-Channel empfohlen"),
-    _StackCard(title: "State Management", text: "flutter_bloc, equatable"),
-    _StackCard(title: "Routing", text: "go_router"),
-    _StackCard(title: "Networking", text: "dio"),
-    _StackCard(title: "Dependency Injection", text: "get_it"),
-    _StackCard(title: "Secure Storage", text: "flutter_secure_storage"),
-    _StackCard(
-      title: "Logging/Observability",
-      text: "talker_flutter, talker_bloc_logger, talker_dio_logger",
+  /// Static list of resource cards displayed in the resource grid.
+  final List<_ResourceCard> _resourceCards = const [
+    _ResourceCard(
+      icon: LucideIcons.book,
+      title: "Dokumentation",
+      text: "Vollständige Dokumentation aller Komponenten und Features",
+      linkText: "Dokumentation öffnen",
+      link: "https://sunarya-thito.github.io/shadcn_flutter/",
     ),
-    _StackCard(
-      title: "UI",
-      text: "shadcn_flutter, flutter_svg, flutter_animate, flutter_spinkit",
+    _ResourceCard(
+      icon: LucideIcons.code,
+      title: "GitHub Repository",
+      text: "Quellcode, Issues und Beiträge auf GitHub",
+      linkText: "Zu Github",
+      link: "https://github.com/First-Coder/Polizei-Flutter-Template",
+    ),
+    _ResourceCard(
+      icon: LucideIcons.eye,
+      title: "Live Demo",
+      text: "Live Demo der Applikation",
+      linkText: "Live Demo öffnen",
+      link: "https://first-coder.github.io/Polizei-Flutter-Template/#/home",
     ),
   ];
 
@@ -54,7 +62,7 @@ class TechnologyStack extends StatelessWidget {
               builder: (context, constraints) {
                 const spacing = 16.0;
                 const minCardWidth = 200.0;
-                const maxColumns = 6;
+                const maxColumns = 3;
 
                 final availableWidth = constraints.maxWidth;
 
@@ -66,7 +74,7 @@ class TechnologyStack extends StatelessWidget {
                 return GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _stackCards.length,
+                  itemCount: _resourceCards.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: columns,
                     crossAxisSpacing: spacing,
@@ -74,30 +82,44 @@ class TechnologyStack extends StatelessWidget {
                     mainAxisExtent: 210, // Breite/Höhe der Cards
                   ),
                   itemBuilder: (context, index) {
-                    final card = _stackCards[index];
+                    final card = _resourceCards[index];
                     return Card(
                       child: Padding(
                         padding: const EdgeInsets.all(10),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Icon(
-                              LucideIcons.package,
+                              card.icon,
                               size: 32,
                               color: isDarkMode
                                   ? Colors.blue[400]
                                   : Colors.blue[900],
                             ),
-                            const Gap(12),
-                            Text(card.title, textAlign: TextAlign.center).h4,
+                            const Gap(16),
+                            Text(card.title).h4,
                             const Gap(6),
                             Flexible(
                               child: Text(
                                 card.text,
                                 maxLines: 3,
-                                textAlign: TextAlign.center,
                                 overflow: TextOverflow.ellipsis,
                               ).muted.small,
+                            ),
+                            const Gap(12),
+                            LinkButton(
+                              density: ButtonDensity.compact,
+                              child: Text(card.linkText),
+                              onPressed: () async {
+                                final uri = Uri.parse(card.link);
+                                if (!await launchUrl(
+                                  uri,
+                                  mode: LaunchMode.externalApplication,
+                                )) {
+                                  // TODO: Handle error with notification
+                                  // throw Exception('Konnte URL nicht öffnen: $uri');
+                                }
+                              },
                             ),
                           ],
                         ),
@@ -114,13 +136,28 @@ class TechnologyStack extends StatelessWidget {
   }
 }
 
-/// Immutable data object used to render a stack card.
-class _StackCard {
-  const _StackCard({required this.title, required this.text});
+/// Immutable data object used to render a ressource card.
+class _ResourceCard {
+  const _ResourceCard({
+    required this.icon,
+    required this.title,
+    required this.text,
+    required this.linkText,
+    required this.link,
+  });
 
-  /// Stack title.
+  /// Ressource icon.
+  final IconData icon;
+
+  /// Ressource title.
   final String title;
 
-  /// Short stack description.
+  /// Short ressource description.
   final String text;
+
+  /// Ressource link text.
+  final String linkText;
+
+  /// Ressource link.
+  final String link;
 }

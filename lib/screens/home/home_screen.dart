@@ -1,3 +1,4 @@
+import 'package:police_flutter_template/screens/home/widgets/additional_resources.dart';
 import 'package:police_flutter_template/screens/home/widgets/hero_section.dart';
 import 'package:police_flutter_template/screens/home/widgets/installation.dart';
 import 'package:police_flutter_template/screens/home/widgets/technology_stack.dart';
@@ -10,7 +11,12 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,
-      children: [HeroSection(), Installation(), TechnologyStack()],
+      children: [
+        HeroSection(),
+        Installation(),
+        TechnologyStack(),
+        AdditionalResources(),
+      ],
     );
   }
 }
