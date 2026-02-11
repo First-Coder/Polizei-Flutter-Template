@@ -1,5 +1,6 @@
 import 'package:police_flutter_template/screens/home/widgets/hero_section.dart';
 import 'package:police_flutter_template/screens/home/widgets/installation.dart';
+import 'package:police_flutter_template/screens/home/widgets/technology_stack.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,7 +10,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,
-      children: [HeroSection(), Installation(), Gap(29)],
+      children: [HeroSection(), Installation(), TechnologyStack()],
     );
   }
 }
