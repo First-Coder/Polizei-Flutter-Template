@@ -46,6 +46,7 @@ class LightButton extends StatelessWidget {
     this.leading,
     this.borderRadius,
     this.isActive = false,
+    this.alignment,
   });
 
   final Widget child;
@@ -62,6 +63,8 @@ class LightButton extends StatelessWidget {
 
   final bool isActive;
 
+  final Alignment? alignment;
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = context.watch<ThemeCubit>().state.isDarkMode;
@@ -77,6 +80,7 @@ class LightButton extends StatelessWidget {
         activeBackgroundColor: activeBackgroundColor,
         borderRadius: borderRadius,
       ),
+      alignment: alignment,
       onPressed: onPressed,
       trailing: trailing,
       leading: leading,

@@ -29,6 +29,11 @@ class NavigationItems {
 
   final topNavigationBreakWidth = 900;
 
+  List<NavigationItemModel> get profileItems => [
+    NavigationItemModel(index: null, title: "Mein Profil"),
+    NavigationItemModel(index: null, title: "Einstellungen"),
+  ];
+
   /// The static navigation definition for the app.
   ///
   /// - Leaf items provide [NavigationItemModel.onPressed].
@@ -38,10 +43,7 @@ class NavigationItems {
       index: 0,
       title: "Home",
       icon: const Icon(LucideIcons.house),
-      onPressed: () => navigationShell.goBranch(
-        0,
-        initialLocation: false,
-      ),
+      onPressed: () => navigationShell.goBranch(0, initialLocation: false),
     ),
     NavigationItemModel(
       index: null,
@@ -51,10 +53,7 @@ class NavigationItems {
           index: 1,
           title: "Buttons",
           icon: const Icon(LucideIcons.component),
-          onPressed: () => navigationShell.goBranch(
-            1,
-            initialLocation: false,
-          ),
+          onPressed: () => navigationShell.goBranch(1, initialLocation: false),
         ),
         NavigationItemModel(
           index: null,

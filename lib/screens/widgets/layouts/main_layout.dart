@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:police_flutter_template/extensions/button_extensions.dart';
 import 'package:police_flutter_template/extensions/text_extensions.dart';
 import 'package:police_flutter_template/screens/widgets/layouts/multi_provider_layout.dart';
 import 'package:police_flutter_template/screens/widgets/layouts/widgets/footer_bottom_area.dart';
@@ -11,10 +12,12 @@ import 'package:police_flutter_template/screens/widgets/light_button.dart';
 import 'package:police_flutter_template/settings/app_constants.dart';
 import 'package:police_flutter_template/settings/navigation_items.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../bloc/auth/auth_bloc.dart';
 import '../../../settings/search_engine.dart';
 import '../../../theme/cubit/theme_cubit.dart';
+import 'models/navigation_item_model.dart';
 
 /// Main shell layout for authenticated areas.
 ///
@@ -34,6 +37,19 @@ class _MainLayoutState extends State<MainLayout> {
   bool showSearch = false;
 
   final searchEngine = SearchEngine();
+
+  void _onPressed(NavigationItemModel item) async {
+    if (item.onPressed != null) {
+      item.onPressed!();
+      return;
+    }
+    if (!item.isExternal || item.url == null) return;
+    final uri = Uri.parse(item.url!);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      // TODO: Handle error with notification
+      // throw Exception('Konnte URL nicht öffnen: $uri');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,9 +165,63 @@ class _MainLayoutState extends State<MainLayout> {
                                 ),
                                 subtitle: Text('Pers. Nr.: ${user.id}'),
                               ),
+                            ).withPopover(
+                              placement: Alignment.bottomRight,
+                              anchorPlacement: Alignment.topRight,
+                              offset: const Offset(0, -8),
+                              builder: (context) {
+                                return SizedBox(
+                                  width: 256,
+                                  child: ModalContainer(
+                                    padding: EdgeInsets.zero,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Basic(
+                                          title: Text(
+                                            '${user.firstName} ${user.lastName}',
+                                          ).base,
+                                          subtitle: Text(
+                                            'Pers. Nr.: ${user.id}',
+                                          ),
+                                        ).withPadding(
+                                          horizontal: 16,
+                                          vertical: 12,
+                                        ),
+                                        Divider(
+                                          color: isDarkMode
+                                              ? Colors.gray[700]
+                                              : Colors.gray[200],
+                                        ),
+                                        ...navigationItems.profileItems.map(
+                                          (subItem) => SizedBox(
+                                            width: double.infinity,
+                                            child: LightButton(
+                                              onPressed: () =>
+                                                  _onPressed(subItem),
+                                              isIcon: false,
+                                              alignment: Alignment.centerLeft,
+                                              isActive:
+                                                  subItem.index ==
+                                                  widget
+                                                      .navigationShell
+                                                      .currentIndex,
+                                              borderRadius: 0,
+                                              leading: subItem.icon,
+                                              child: Text(subItem.title).normal,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ).intrinsicWidth(),
+                                );
+                              },
                             ),
                           ],
-                        ),
+                        ).gap(10),
                       ],
 
                       if (isMobile)

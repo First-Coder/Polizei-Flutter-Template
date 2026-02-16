@@ -67,8 +67,6 @@ class TopNavigation extends StatelessWidget {
                   ),
                 ).withPopover(
                   enabled: item.children.isNotEmpty,
-                  enablePress: false,
-                  enableHover: true,
                   offset: const Offset(0, -4),
                   builder: (context) {
                     return ModalContainer(

@@ -28,9 +28,10 @@ extension ButtonExtensions on Widget {
 
     // Optional positioning (adjust to your showPopover signature)
     Alignment placement = Alignment.bottomCenter,
+    Alignment? anchorPlacement,
     Offset offset = const Offset(0, 8),
   }) {
-    if(!enabled) return this;
+    if (!enabled) return this;
     return ButtonPopoverWrapper(
       anchor: this,
       builder: builder,
@@ -41,6 +42,7 @@ extension ButtonExtensions on Widget {
       hoverOpenDelay: hoverOpenDelay,
       hoverCloseDelay: hoverCloseDelay,
       placement: placement,
+      anchorAlignment: anchorPlacement,
       offset: offset,
     );
   }

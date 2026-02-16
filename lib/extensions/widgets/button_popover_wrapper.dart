@@ -50,6 +50,7 @@ class ButtonPopoverWrapper extends StatefulWidget {
     required this.hoverCloseDelay,
     required this.placement,
     required this.offset,
+    required this.anchorAlignment,
   });
 
   /// The button that acts as the popover anchor (visual trigger).
@@ -81,8 +82,11 @@ class ButtonPopoverWrapper extends StatefulWidget {
   /// Delay before closing after hover exit (allows moving into the menu).
   final Duration hoverCloseDelay;
 
-  /// Popover alignment relative to the anchor.
+  /// Popover alignment relative.
   final Alignment placement;
+
+  /// Popover alignment relative to the anchor.
+  final Alignment? anchorAlignment;
 
   /// Additional popover position offset.
   final Offset offset;
@@ -168,6 +172,7 @@ class _ButtonPopoverWrapperState extends State<ButtonPopoverWrapper> {
         );
       },
       alignment: widget.placement,
+      anchorAlignment: widget.anchorAlignment,
       offset: widget.offset,
     );
   }

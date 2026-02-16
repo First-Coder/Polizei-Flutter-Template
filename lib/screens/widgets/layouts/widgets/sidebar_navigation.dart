@@ -113,21 +113,15 @@ class SidebarNavigation extends StatelessWidget {
           Divider(
             color: isDarkMode ? Colors.gray[700] : Colors.gray[200],
           ).withPadding(horizontal: 16, top: 24, bottom: 12),
-          SizedBox(
-            width: double.infinity,
-            child: TextButton(
-              alignment: Alignment.centerLeft,
-              onPressed: () {},
-              child: Text('Mein Profil'),
-            ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: TextButton(
-              alignment: Alignment.centerLeft,
-              onPressed: () {},
-              child: Text('Einstellungen'),
-            ),
+          ...navigationItems.profileItems.map(
+            (item) => (SizedBox(
+              width: double.infinity,
+              child: TextButton(
+                alignment: Alignment.centerLeft,
+                onPressed: () => {_onPressed(item)},
+                child: Text(item.title).normal,
+              ),
+            )),
           ),
           Gap(10),
         ],
