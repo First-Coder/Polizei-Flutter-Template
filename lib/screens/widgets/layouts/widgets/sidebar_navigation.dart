@@ -48,34 +48,34 @@ class SidebarNavigation extends StatelessWidget {
     }
   }
 
-  List<NavigationBarItem> _getNavigationItems(
+  List<Widget> _getNavigationItems(
     BuildContext context,
     bool isDarkMode,
     Color activeBackgroundColor,
   ) {
-    final items = <NavigationBarItem>[];
+    final items = <Widget>[];
     for (final item in navigationItems.items) {
       if (item.children.isNotEmpty) {
-        items.addAll([
-          NavigationLabel(
-            padding: EdgeInsets.zero,
-            child: Text(item.title).small,
+        items.add(
+          NavigationGroup(
+            label: Text(item.title).small,
+            labelPadding: EdgeInsets.zero,
+            children: item.children
+                .map(
+                  (subItem) => (NavigationButton(
+                    onPressed: () => _onPressed(context, subItem),
+                    style: lightButtonStyle(
+                      isDarkMode: isDarkMode,
+                      isActive: subItem.index == navigationShell.currentIndex,
+                      activeBackgroundColor: activeBackgroundColor,
+                    ),
+                    label: Text(subItem.title).small,
+                    child: subItem.icon ?? const Icon(LucideIcons.anchor),
+                  )),
+                )
+                .toList(),
           ),
-        ]);
-        for (final subItem in item.children) {
-          items.add(
-            NavigationButton(
-              onPressed: () => _onPressed(context, subItem),
-              style: lightButtonStyle(
-                isDarkMode: isDarkMode,
-                isActive: subItem.index == navigationShell.currentIndex,
-                activeBackgroundColor: activeBackgroundColor,
-              ),
-              label: Text(subItem.title).small,
-              child: subItem.icon ?? const Icon(LucideIcons.anchor),
-            ),
-          );
-        }
+        );
         items.add(
           NavigationDivider(
             color: isDarkMode ? Colors.gray[700] : Colors.gray[200],
@@ -112,30 +112,28 @@ class SidebarNavigation extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SidebarHeader(sidebarContext: sidebarContext),
-          SingleChildScrollView(
-            child: SizedBox(
-              width: double.infinity,
-              child: NavigationSidebar(
-                children: _getNavigationItems(
-                  context,
-                  isDarkMode,
-                  activeBackgroundColor,
-                ),
+          SizedBox(
+            width: double.infinity,
+            child: NavigationSidebar(
+              children: _getNavigationItems(
+                context,
+                isDarkMode,
+                activeBackgroundColor,
               ),
             ),
-          ).withPadding(all: 16).expanded(),
+          ).expanded(),
           Divider(
             color: isDarkMode ? Colors.gray[700] : Colors.gray[200],
           ).withPadding(horizontal: 16, top: 24, bottom: 12),
           ...navigationItems.profileItems.map(
-            (item) => (SizedBox(
+            (item) => SizedBox(
               width: double.infinity,
               child: TextButton(
                 alignment: Alignment.centerLeft,
                 onPressed: () => {_onPressed(context, item)},
                 child: Text(item.title).normal,
               ),
-            )),
+            ),
           ),
           Gap(10),
         ],

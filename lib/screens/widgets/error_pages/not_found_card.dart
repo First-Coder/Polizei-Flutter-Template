@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:police_flutter_template/extensions/text_extensions.dart';
 import 'package:police_flutter_template/screens/widgets/icon_container.dart';
 import 'package:police_flutter_template/settings/error_settings.dart';
-import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart' hide IconContainer;
 
 import '../../../theme/cubit/theme_cubit.dart';
 
