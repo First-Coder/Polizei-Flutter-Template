@@ -20,6 +20,7 @@ void main() {
               hoverOpenDelay: const Duration(milliseconds: 10),
               hoverCloseDelay: const Duration(milliseconds: 10),
               placement: Alignment.bottomCenter,
+              anchorAlignment: null,
               offset: const Offset(0, 8),
             ),
           ),

@@ -9,11 +9,12 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final installationKey = GlobalKey();
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
-        HeroSection(),
-        Installation(),
+        HeroSection(installationKey: installationKey),
+        Installation(key: installationKey),
         TechnologyStack(),
         AdditionalResources(),
       ],

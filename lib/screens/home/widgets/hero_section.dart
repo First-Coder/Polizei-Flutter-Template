@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:police_flutter_template/extensions/text_extensions.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../extensions/widget_extensions.dart';
 import '../../../theme/cubit/theme_cubit.dart';
@@ -16,7 +17,9 @@ import '../../../theme/cubit/theme_cubit.dart';
 /// Theme behavior:
 /// - Uses [ThemeCubit] to adjust colors and gradients for dark/light mode.
 class HeroSection extends StatefulWidget {
-  const HeroSection({super.key});
+  const HeroSection({super.key, required this.installationKey});
+
+  final GlobalKey installationKey;
 
   @override
   State<HeroSection> createState() => _HeroSectionState();
@@ -69,6 +72,18 @@ class _HeroSectionState extends State<HeroSection> {
     _loadAppInfo();
   }
 
+  Future<void> _scrollToInstallation() async {
+    final ctx = widget.installationKey.currentContext;
+    if (ctx == null) return;
+
+    await Scrollable.ensureVisible(
+      ctx,
+      alignment: 0.0, // 0.0 = oben im Viewport
+      duration: const Duration(milliseconds: 450),
+      curve: Curves.easeInOutCubic,
+    );
+  }
+
   /// Loads app information (e.g. version) from the underlying platform.
   Future<void> _loadAppInfo() async {
     final packageInfo = await PackageInfo.fromPlatform();
@@ -119,7 +134,7 @@ class _HeroSectionState extends State<HeroSection> {
             children: [
               PrimaryButton(
                 leading: const Icon(LucideIcons.download),
-                onPressed: () {},
+                onPressed: _scrollToInstallation,
                 child: const Text('Installation starten'),
               ),
               Button(
@@ -128,7 +143,13 @@ class _HeroSectionState extends State<HeroSection> {
                   hoverColor: isDarkMode ? Colors.gray[700] : Colors.gray[100],
                 ),
                 leading: const Icon(LucideIcons.eye),
-                onPressed: () {},
+                onPressed: () async {
+                  final uri = Uri.parse("https://sunarya-thito.github.io/shadcn_flutter/");
+                  if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+                  // TODO: Handle error with notification
+                  // throw Exception('Konnte URL nicht öffnen: $uri');
+                  }
+                },
                 child: const Text('Komponenten ansehen'),
               ),
             ],
