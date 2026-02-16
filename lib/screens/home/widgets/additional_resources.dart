@@ -38,10 +38,10 @@ class AdditionalResources extends StatelessWidget {
     final isDarkMode = context.watch<ThemeCubit>().state.isDarkMode;
     return Container(
       width: double.infinity,
-      color: isDarkMode ? Colors.gray[950] : Colors.gray[50],
+      color: isDarkMode ? Colors.gray[800] : Colors.white,
       child: Column(
         children: [
-          Text('Technologie Stack').bold.responsive(
+          Text('Weitere Ressourcen').bold.responsive(
             context,
             mobile: (t) => t.x3Large,
             tablet: (t) => t.x3Large,
@@ -49,7 +49,7 @@ class AdditionalResources extends StatelessWidget {
           ),
           Gap(16),
           Text(
-            'Moderne und bewährte Technologien für beste Performance',
+            'Dokumentation und Hilfestellung für Entwickler',
           ).setColors(
             lightColor: Colors.gray[600],
             darkColor: Colors.gray[400],
