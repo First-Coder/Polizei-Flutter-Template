@@ -5,6 +5,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../extensions/text_extensions.dart';
+import '../../../../features/toast_exceptions.dart';
 import '../responsive.dart';
 
 /// Renders a footer link section (title + list of clickable links).
@@ -28,10 +29,26 @@ class FooterLinks extends StatelessWidget {
       context.pushNamed(link.route!);
     }
     if (link.url != null) {
-      final uri = Uri.parse(link.url!);
-      if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-        // TODO: Handle error with notification
-        // throw Exception('Konnte URL nicht öffnen: $uri');
+      final url = link.url!;
+      final uri = Uri.parse(url);
+      final launch = await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
+      if (!launch) {
+        if (!context.mounted) {
+          return;
+        }
+        showToast(
+          context: context,
+          builder: (toastContext, overlay) {
+            return toastExceptionLaunchUrl(
+              toastContext,
+              overlay,
+              url,
+            );
+          },
+        );
       }
     }
   }

@@ -5,6 +5,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../extensions/widget_extensions.dart';
+import '../../../features/toast_exceptions.dart';
 import '../../../theme/cubit/theme_cubit.dart';
 
 /// The landing page hero section shown on the home screen.
@@ -144,10 +145,26 @@ class _HeroSectionState extends State<HeroSection> {
                 ),
                 leading: const Icon(LucideIcons.eye),
                 onPressed: () async {
-                  final uri = Uri.parse("https://sunarya-thito.github.io/shadcn_flutter/");
-                  if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-                  // TODO: Handle error with notification
-                  // throw Exception('Konnte URL nicht öffnen: $uri');
+                  final url = "https://sunarya-thito.github.io/shadcn_flutter/";
+                  final uri = Uri.parse(url);
+                  final launch = await launchUrl(
+                    uri,
+                    mode: LaunchMode.externalApplication,
+                  );
+                  if (!launch) {
+                    if (!context.mounted) {
+                      return;
+                    }
+                    showToast(
+                      context: context,
+                      builder: (toastContext, overlay) {
+                        return toastExceptionLaunchUrl(
+                          toastContext,
+                          overlay,
+                          url,
+                        );
+                      },
+                    );
                   }
                 },
                 child: const Text('Komponenten ansehen'),

@@ -6,6 +6,7 @@ import 'package:police_flutter_template/settings/footer_settings.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../features/toast_exceptions.dart';
 import '../models/footer_link_model.dart';
 
 /// Bottom section of the footer.
@@ -51,10 +52,19 @@ class _FooterBottomAreaState extends State<FooterBottomArea> {
       context.pushNamed(link.route!);
     }
     if (link.url != null) {
-      final uri = Uri.parse(link.url!);
-      if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-        // TODO: Handle error with notification
-        // throw Exception('Konnte URL nicht öffnen: $uri');
+      final url = link.url!;
+      final uri = Uri.parse(url);
+      final launch = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (!launch) {
+        if (!context.mounted) {
+          return;
+        }
+        showToast(
+          context: context,
+          builder: (toastContext, overlay) {
+            return toastExceptionLaunchUrl(toastContext, overlay, url);
+          },
+        );
       }
     }
   }
@@ -65,16 +75,16 @@ class _FooterBottomAreaState extends State<FooterBottomArea> {
     children: FooterSettings.copyrightLinks
         .map(
           (link) => (Button(
-        style: ButtonStyle.text(density: ButtonDensity.compact)
-            .withPadding(padding: EdgeInsets.zero)
-            .withForegroundColor(
-          color: Colors.gray[400],
-          hoverColor: Colors.white,
-        ),
-        onPressed: () => _onPressed(context, link),
-        child: Text(link.title),
-      )),
-    )
+            style: ButtonStyle.text(density: ButtonDensity.compact)
+                .withPadding(padding: EdgeInsets.zero)
+                .withForegroundColor(
+                  color: Colors.gray[400],
+                  hoverColor: Colors.white,
+                ),
+            onPressed: () => _onPressed(context, link),
+            child: Text(link.title),
+          )),
+        )
         .toList(),
   ).gap(20);
 
@@ -98,9 +108,9 @@ class _FooterBottomAreaState extends State<FooterBottomArea> {
         Responsive.isMobile(context)
             ? Column(children: [_getLinks(context), _getCopyright()]).gap(15)
             : Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [_getLinks(context), _getCopyright()],
-        ),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [_getLinks(context), _getCopyright()],
+              ),
         if (info != null) ...[
           Gap(24),
           Container(

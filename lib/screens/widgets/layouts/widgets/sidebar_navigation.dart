@@ -5,6 +5,7 @@ import 'package:police_flutter_template/screens/widgets/light_button.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart' hide NavigationItem;
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../features/toast_exceptions.dart';
 import '../models/navigation_item_model.dart';
 import '../../../../settings/navigation_items.dart';
 import '../../../../theme/cubit/theme_cubit.dart';
@@ -23,20 +24,32 @@ class SidebarNavigation extends StatelessWidget {
 
   final NavigationItems navigationItems;
 
-  void _onPressed(NavigationItemModel item) async {
+  void _onPressed(BuildContext context, NavigationItemModel item) async {
     if (item.onPressed != null) {
       item.onPressed!();
       return;
     }
-    if (!item.isExternal || item.url == null) return;
-    final uri = Uri.parse(item.url!);
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      // TODO: Handle error with notification
-      // throw Exception('Konnte URL nicht öffnen: $uri');
+    if (!item.isExternal || item.url == null) {
+      return;
+    }
+    final url = item.url!;
+    final uri = Uri.parse(url);
+    final launch = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!launch) {
+      if (!context.mounted) {
+        return;
+      }
+      showToast(
+        context: context,
+        builder: (toastContext, overlay) {
+          return toastExceptionLaunchUrl(toastContext, overlay, url);
+        },
+      );
     }
   }
 
   List<NavigationBarItem> _getNavigationItems(
+    BuildContext context,
     bool isDarkMode,
     Color activeBackgroundColor,
   ) {
@@ -52,7 +65,7 @@ class SidebarNavigation extends StatelessWidget {
         for (final subItem in item.children) {
           items.add(
             NavigationButton(
-              onPressed: () => _onPressed(subItem),
+              onPressed: () => _onPressed(context, subItem),
               style: lightButtonStyle(
                 isDarkMode: isDarkMode,
                 isActive: subItem.index == navigationShell.currentIndex,
@@ -71,7 +84,7 @@ class SidebarNavigation extends StatelessWidget {
       } else {
         items.add(
           NavigationButton(
-            onPressed: () => _onPressed(item),
+            onPressed: () => _onPressed(context, item),
             style: lightButtonStyle(
               isDarkMode: isDarkMode,
               isActive: item.index == navigationShell.currentIndex,
@@ -104,6 +117,7 @@ class SidebarNavigation extends StatelessWidget {
               width: double.infinity,
               child: NavigationSidebar(
                 children: _getNavigationItems(
+                  context,
                   isDarkMode,
                   activeBackgroundColor,
                 ),
@@ -118,7 +132,7 @@ class SidebarNavigation extends StatelessWidget {
               width: double.infinity,
               child: TextButton(
                 alignment: Alignment.centerLeft,
-                onPressed: () => {_onPressed(item)},
+                onPressed: () => {_onPressed(context, item)},
                 child: Text(item.title).normal,
               ),
             )),

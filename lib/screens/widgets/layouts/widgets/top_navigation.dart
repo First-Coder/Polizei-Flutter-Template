@@ -4,6 +4,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart' hide NavigationItem;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../extensions/button_extensions.dart';
+import '../../../../features/toast_exceptions.dart';
 import '../../light_button.dart';
 import '../models/navigation_item_model.dart';
 
@@ -18,16 +19,27 @@ class TopNavigation extends StatelessWidget {
 
   final StatefulNavigationShell navigationShell;
 
-  void _onPressed(NavigationItemModel item) async {
+  void _onPressed(BuildContext context, NavigationItemModel item) async {
     if (item.onPressed != null) {
       item.onPressed!();
       return;
     }
-    if (!item.isExternal || item.url == null) return;
-    final uri = Uri.parse(item.url!);
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      // TODO: Handle error with notification
-      // throw Exception('Konnte URL nicht öffnen: $uri');
+    if (!item.isExternal || item.url == null) {
+      return;
+    }
+    final url = item.url!;
+    final uri = Uri.parse(url);
+    final launch = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!launch) {
+      if (!context.mounted) {
+        return;
+      }
+      showToast(
+        context: context,
+        builder: (toastContext, overlay) {
+          return toastExceptionLaunchUrl(toastContext, overlay, url);
+        },
+      );
     }
   }
 
@@ -39,7 +51,7 @@ class TopNavigation extends StatelessWidget {
           .map(
             (item) =>
                 (LightButton(
-                  onPressed: () => _onPressed(item),
+                  onPressed: () => _onPressed(context, item),
                   isActive: item.index == navigationShell.currentIndex,
                   isIcon: false,
                   trailing: item.children.isEmpty
@@ -78,7 +90,7 @@ class TopNavigation extends StatelessWidget {
                               (subItem) => SizedBox(
                                 width: double.infinity,
                                 child: LightButton(
-                                  onPressed: () => _onPressed(subItem),
+                                  onPressed: () => _onPressed(context, subItem),
                                   isIcon: false,
                                   isActive:
                                       subItem.index ==

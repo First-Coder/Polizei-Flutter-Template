@@ -4,6 +4,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../extensions/text_extensions.dart';
+import '../../../../features/toast_exceptions.dart';
 import '../responsive.dart';
 
 /// Renders the "Contact" area in the footer.
@@ -41,11 +42,20 @@ class _FooterContactRow extends StatelessWidget {
   final FooterContactModel model;
 
   /// Launches a phone or mail intent depending on the model flags.
-  Future<void> _call() async {
+  Future<void> _call(BuildContext context) async {
     if (!model.isMail && !model.isPhone) return;
     final uri = Uri(scheme: model.isMail ? 'mailto' : 'tel', path: model.value);
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      // TODO: Exception if needed (Snackbar/Toast/Log)
+    final launch = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!launch) {
+      if (!context.mounted) {
+        return;
+      }
+      showToast(
+        context: context,
+        builder: (toastContext, overlay) {
+          return toastExceptionLaunchUrl(toastContext, overlay, model.value);
+        },
+      );
     }
   }
 
@@ -67,7 +77,7 @@ class _FooterContactRow extends StatelessWidget {
                         color: Colors.gray[400],
                         hoverColor: Colors.white,
                       ),
-                  onPressed: () => _call(),
+                  onPressed: () => _call(context),
                   child: Text(model.label ?? model.value),
                 ),
               ],

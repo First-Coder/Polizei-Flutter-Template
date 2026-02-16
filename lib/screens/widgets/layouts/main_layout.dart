@@ -15,6 +15,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../bloc/auth/auth_bloc.dart';
+import '../../../features/toast_exceptions.dart';
 import '../../../settings/search_engine.dart';
 import '../../../theme/cubit/theme_cubit.dart';
 import 'models/navigation_item_model.dart';
@@ -38,16 +39,27 @@ class _MainLayoutState extends State<MainLayout> {
 
   final searchEngine = SearchEngine();
 
-  void _onPressed(NavigationItemModel item) async {
+  void _onPressed(BuildContext context, NavigationItemModel item) async {
     if (item.onPressed != null) {
       item.onPressed!();
       return;
     }
-    if (!item.isExternal || item.url == null) return;
-    final uri = Uri.parse(item.url!);
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      // TODO: Handle error with notification
-      // throw Exception('Konnte URL nicht öffnen: $uri');
+    if (!item.isExternal || item.url == null) {
+      return;
+    }
+    final url = item.url!;
+    final uri = Uri.parse(url);
+    final launch = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!launch) {
+      if (!context.mounted) {
+        return;
+      }
+      showToast(
+        context: context,
+        builder: (toastContext, overlay) {
+          return toastExceptionLaunchUrl(toastContext, overlay, url);
+        },
+      );
     }
   }
 
@@ -200,7 +212,7 @@ class _MainLayoutState extends State<MainLayout> {
                                             width: double.infinity,
                                             child: LightButton(
                                               onPressed: () =>
-                                                  _onPressed(subItem),
+                                                  _onPressed(context, subItem),
                                               isIcon: false,
                                               alignment: Alignment.centerLeft,
                                               isActive:

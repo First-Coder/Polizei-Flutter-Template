@@ -3,6 +3,7 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../extensions/text_extensions.dart';
+import '../../../features/toast_exceptions.dart';
 import '../../../theme/cubit/theme_cubit.dart';
 
 class AdditionalResources extends StatelessWidget {
@@ -48,9 +49,7 @@ class AdditionalResources extends StatelessWidget {
             desktop: (t) => t.x4Large,
           ),
           Gap(16),
-          Text(
-            'Dokumentation und Hilfestellung für Entwickler',
-          ).setColors(
+          Text('Dokumentation und Hilfestellung für Entwickler').setColors(
             lightColor: Colors.gray[600],
             darkColor: Colors.gray[400],
           ),
@@ -111,13 +110,26 @@ class AdditionalResources extends StatelessWidget {
                               density: ButtonDensity.compact,
                               child: Text(card.linkText),
                               onPressed: () async {
-                                final uri = Uri.parse(card.link);
-                                if (!await launchUrl(
+                                final url = card.link;
+                                final uri = Uri.parse(url);
+                                final launch = await launchUrl(
                                   uri,
                                   mode: LaunchMode.externalApplication,
-                                )) {
-                                  // TODO: Handle error with notification
-                                  // throw Exception('Konnte URL nicht öffnen: $uri');
+                                );
+                                if (!launch) {
+                                  if (!context.mounted) {
+                                    return;
+                                  }
+                                  showToast(
+                                    context: context,
+                                    builder: (toastContext, overlay) {
+                                      return toastExceptionLaunchUrl(
+                                        toastContext,
+                                        overlay,
+                                        url,
+                                      );
+                                    },
+                                  );
                                 }
                               },
                             ),
