@@ -23,6 +23,7 @@ class ThemeCubit extends Cubit<ThemeState> {
   ThemeCubit() : super(LightThemeState()) {
     _isDarkMode = initialBrightness == Brightness.dark;
     _colorScheme = _isDarkMode ? dark : light;
+    emit(_isDarkMode ? DarkThemeState() : LightThemeState());
   }
 
   /// Toggle the theme
