@@ -1,6 +1,14 @@
 part of 'theme_cubit.dart';
 
-/// The berlin police blue color scheme.
+/// Project-specific color shades used for branding.
+///
+/// This palette encodes the "Berlin Police Blue" color range (roughly from light
+/// tints to strong primary tones).
+///
+/// Notes:
+/// - Some shades are set to `Colors.transparent` (50/900/950). If this is intentional
+///   (e.g. reserved slots), it is fine; otherwise consider replacing with real colors
+///   to avoid surprising UI results when those indices are used.
 final berlinPoliceBlue = ColorShades.fromMap({
   50: Colors.transparent,
   100: Color.fromRGBO(232, 237, 245, 1),
@@ -15,89 +23,72 @@ final berlinPoliceBlue = ColorShades.fromMap({
   950: Colors.transparent,
 });
 
-/// The radius of the buttons, cards etc.
+/// Global border radius used by theme components (buttons, cards, etc.).
+///
+/// `shadcn_flutter` uses `ThemeData.radius` as a styling primitive.
 final double radius = 0.5;
 
-/// The light theme color scheme.
+/// The light mode [ColorScheme] used across the app.
+///
+/// Based on `shadcn_flutter`'s `lightSlate.blue` preset, with a stronger primary
+/// and a white primary foreground for contrast.
 final ColorScheme light = ColorSchemes.lightSlate.blue.copyWith(
   primary: () => Colors.blue[900],
   primaryForeground: () => Colors.white,
-  // card: () => const Color(0xFFF6F6F6),
-  // background: () => const Color(0xFFE3E4E7),
-  // border: () => const Color(0xFFC4C6C6),
-
-  // primary: () => const Color(0xFFB6C1FC),
-
-  // card: const Color(0xFFECECEC),
-  // background: const Color(0xFFE4E4E4),
-  // border: const Color(0xFFD9D9D9),
-
-  // background: const Color(0xFFE4E4E4),
-  // muted: Colors.white,
-  // ring: ColorSchemes.lightNeutral().primary,
-  // card: const Color(0xFFF2F2F2),
-  // border: const Color(0xFFD3D3D3),
 );
 
-/// The light theme data.
-final ThemeData lightTheme = ThemeData(
-  colorScheme: light,
-  radius: radius,
-  // typography: Typography.geist(
-  //   mono: GoogleFonts.kanit(),
-  //   semiBold: GoogleFonts.kanit(),
-  //   small: GoogleFonts.kanit(),
-  //   medium: GoogleFonts.kanit(),
-  // ),
-);
+/// The light [ThemeData] for `shadcn_flutter`.
+///
+/// This is the object you typically pass into `ShadcnApp` / theme providers.
+final ThemeData lightTheme = ThemeData(colorScheme: light, radius: radius);
 
-/// The dark theme color scheme.
+/// The dark mode [ColorScheme] used across the app.
+///
+/// Based on `shadcn_flutter`'s `darkSlate.blue` preset, tweaked to:
+/// - use a slightly lighter primary for dark backgrounds
+/// - set card backgrounds for better contrast
 final ColorScheme dark = ColorSchemes.darkSlate.blue.copyWith(
   primary: () => Colors.blue[700],
   primaryForeground: () => Colors.white,
   card: () => Colors.gray[800],
-  // card: () => const HSLColor.fromAHSL(1, 222.2, 0.84, 0.1).toColor(),
-  // background: const Color(0xFF1F2327),
-  // card: const Color(0xFF282E32),
-  // input: Colors.white,
-  // border: const Color(0xFF323536),
 );
 
-/// The dark theme data.
-final ThemeData darkTheme = ThemeData(
-  colorScheme: dark,
-  radius: radius,
-  // typography: Typography.geist(
-  //   mono: GoogleFonts.kanit(),
-  //   semiBold: GoogleFonts.kanit(),
-  //   small: GoogleFonts.kanit(),
-  //   medium: GoogleFonts.kanit(),
-  //   base: GoogleFonts.kanit(),
-  //   black: GoogleFonts.kanit(),
-  // ),
-);
+/// The dark [ThemeData] for `shadcn_flutter`.
+final ThemeData darkTheme = ThemeData(colorScheme: dark, radius: radius);
 
-/// The theme data based on the context of the app
+/// Base state emitted by [ThemeCubit].
+///
+/// A [ThemeState] encapsulates everything the UI needs to render consistently:
+/// - [themeData]: `shadcn_flutter` theme configuration (colors, radius, etc.)
+/// - [isDarkMode]: a convenient boolean for quick branching in widgets
+/// - [colorScheme]: the active scheme (light/dark)
+///
+/// States are immutable to support predictable rendering and simple comparisons.
 @immutable
 abstract class ThemeState {
-  /// The theme data based on the context of the app
+  /// Theme configuration used by `shadcn_flutter` widgets.
   final ThemeData themeData;
 
-  /// The current color mode
+  /// Whether this state represents dark mode.
   final bool isDarkMode;
 
-  /// The current color scheme
+  /// Active color scheme (light/dark).
   final ColorScheme colorScheme;
 
+  /// Creates a theme state.
   const ThemeState(this.themeData, this.colorScheme, this.isDarkMode);
 }
 
-/// The light theme state.
+/// Theme state representing light mode.
+///
+/// Uses [lightTheme] and [light] color scheme.
 final class LightThemeState extends ThemeState {
   LightThemeState() : super(lightTheme, light, false);
 }
 
-/// The dark theme state.
+/// Theme state representing dark mode.
+///
+/// Uses [darkTheme] and [dark] color scheme.
 final class DarkThemeState extends ThemeState {
   DarkThemeState() : super(darkTheme, dark, true);
 }

@@ -2,6 +2,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import 'package:police_flutter_template/extensions/json_parser_extensions.dart';
 
+/// Unit tests for [JsonParserExtensions] on `Map<String, dynamic>`.
+///
+/// Test strategy:
+/// - Cover both "safe" getters (returning `defaultValue` instead of throwing)
+///   and "strict" getters (`...OrThrow`) that must throw [FormatException] on errors.
+/// - Validate type flexibility where intended (e.g. numbers in JSON often come as strings).
+/// - Validate failure modes: missing keys, wrong types, and unparseable values.
+///
+/// Why it matters:
+/// - JSON is a common source of runtime errors in Dart/Flutter because it is dynamic.
+///   These helpers are a central safety layer; regressions here impact many features.
 void main() {
   group('JsonParserExtensions on Map<String, dynamic>', () {
     group('getString / getStringOrThrow', () {
@@ -123,7 +134,7 @@ void main() {
           ['x', 'y'],
         );
 
-        // falscher Typ am Key -> defaultValue
+        // Wrong value type at key -> should fall back to defaultValue.
         expect(
           <String, dynamic>{
             'a': 'no',
@@ -131,7 +142,7 @@ void main() {
           ['d'],
         );
 
-        // Elemente nicht castbar -> defaultValue
+        // Elements not castable -> should fall back to defaultValue.
         expect(
           <String, dynamic>{
             'a': [1, 'x'],

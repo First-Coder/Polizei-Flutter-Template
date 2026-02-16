@@ -7,6 +7,26 @@ import 'package:shadcn_flutter/shadcn_flutter.dart' hide IconContainer;
 
 import '../../../theme/cubit/theme_cubit.dart';
 
+/// A reusable card widget for displaying a "Not Found" (HTTP 404) page section.
+///
+/// Intended usage:
+/// - Embedded into a full-screen error page layout (e.g. `NotFoundScreen`)
+/// - Can also be used in other layouts as a standalone "missing content" component
+///
+/// Features:
+/// - Theme-aware rendering using [ThemeCubit].
+/// - Optional custom border colors via [color] and [darkColor].
+/// - Optional drop shadow via [withShadow].
+/// - Configurable list of bullet points via [possibleReasons], with fallback to
+///   [ErrorSettings.notFoundReasons].
+///
+/// Navigation:
+/// - Provides a "Back" action using `context.pop()` (enabled only if `canPop()`).
+/// - Provides a "Go to home" action using `context.goNamed(...)` configured by
+///   [ErrorSettings.notFoundHomeLink].
+///
+/// Note:
+/// - User-facing copy is German; consider i18n if needed.
 class NotFoundCard extends StatelessWidget {
   const NotFoundCard({
     super.key,
@@ -16,17 +36,24 @@ class NotFoundCard extends StatelessWidget {
     this.withShadow = false,
   });
 
+  /// Optional list of user-facing reasons (displayed as bullet points).
+  ///
+  /// If null, falls back to [ErrorSettings.notFoundReasons].
   final List<String>? possibleReasons;
 
+  /// Whether to show a large soft shadow around the card.
   final bool withShadow;
 
+  /// Optional border color used in light mode.
   final Color? color;
 
+  /// Optional border color used in dark mode.
   final Color? darkColor;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = context.watch<ThemeCubit>().state.isDarkMode;
+
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: 720),
       child: Card(
@@ -81,6 +108,8 @@ class NotFoundCard extends StatelessWidget {
                   ),
             ),
             Gap(24),
+
+            // Reasons section.
             SizedBox(
               width: double.infinity,
               child: Card(
@@ -113,7 +142,10 @@ class NotFoundCard extends StatelessWidget {
                 ),
               ),
             ).withPadding(horizontal: 30),
+
             Gap(32),
+
+            // Primary actions.
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -131,6 +163,7 @@ class NotFoundCard extends StatelessWidget {
                 ),
               ],
             ).gap(10),
+
             Divider().withPadding(all: 32),
             Text('Benötigen Sie Hilfe? Kontaktieren Sie uns.').muted.small,
           ],

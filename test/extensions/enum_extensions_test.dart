@@ -1,6 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:police_flutter_template/extensions/enum_extensions.dart';
 
+/// Unit tests for [EnumExtensions] on `Iterable<T extends Enum>`.
+///
+/// Covered behavior:
+/// - Map shapes are correct and deterministic for a known enum.
+/// - Empty iterables produce empty maps (no exceptions, no nulls).
+///
+/// Why it matters:
+/// - These maps are often used for serialization and UI binding. A subtle change
+///   (e.g. using `toString()` instead of `name`) can break persisted data formats.
 enum _TestEnum { alpha, beta, gamma }
 
 void main() {

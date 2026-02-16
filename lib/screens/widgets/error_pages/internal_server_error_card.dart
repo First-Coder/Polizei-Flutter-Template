@@ -7,6 +7,30 @@ import '../../../settings/error_settings.dart';
 import '../../../theme/cubit/theme_cubit.dart';
 import '../icon_container.dart';
 
+/// A reusable card widget for displaying an "Internal Server Error" (HTTP 500) page section.
+///
+/// Intended usage:
+/// - Embedded into a full-screen error page layout (e.g. `InternalServerErrorScreen`)
+/// - Can also be used inside other layouts as a standalone error component.
+///
+/// Features:
+/// - Theme-aware coloring and shadows using [ThemeCubit].
+/// - Optional custom border colors via [color] and [darkColor].
+/// - Optional drop shadow via [withShadow] for prominent standalone display.
+/// - Configurable copy lists:
+///   - [whatHappend] (what went wrong)
+///   - [help] (what the user can do)
+///
+/// Defaults:
+/// - If [whatHappend] / [help] are not provided, values are taken from [ErrorSettings].
+///
+/// Navigation:
+/// - Provides a "Back" action using `context.pop()` (enabled only if `canPop()`).
+/// - Provides a "Go to home" action using `context.goNamed(...)` configured by
+///   [ErrorSettings.internalServerErrorHomeLink].
+///
+/// Note:
+/// - Some user-facing text is German; consider i18n if needed.
 class InternalServerErrorCard extends StatelessWidget {
   const InternalServerErrorCard({
     super.key,
@@ -17,19 +41,25 @@ class InternalServerErrorCard extends StatelessWidget {
     this.withShadow = false,
   });
 
+  /// Optional list describing what happened (displayed as bullet points).
   final List<String>? whatHappend;
 
+  /// Optional list describing recommended user actions to recover.
   final List<String>? help;
 
+  /// Whether to show a large soft shadow around the card.
   final bool withShadow;
 
+  /// Optional border color used in light mode.
   final Color? color;
 
+  /// Optional border color used in dark mode.
   final Color? darkColor;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = context.watch<ThemeCubit>().state.isDarkMode;
+
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: 720),
       child: Card(
@@ -84,6 +114,8 @@ class InternalServerErrorCard extends StatelessWidget {
                   ),
             ),
             Gap(24),
+
+            // "What happened?" section.
             SizedBox(
               width: double.infinity,
               child: Card(
@@ -126,7 +158,10 @@ class InternalServerErrorCard extends StatelessWidget {
                 ),
               ),
             ).withPadding(horizontal: 30),
+
             Gap(32),
+
+            // "What can you do?" section.
             SizedBox(
               width: double.infinity,
               child: Card(
@@ -169,7 +204,10 @@ class InternalServerErrorCard extends StatelessWidget {
                 ),
               ),
             ).withPadding(horizontal: 30),
+
             Gap(32),
+
+            // Primary actions.
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -188,6 +226,7 @@ class InternalServerErrorCard extends StatelessWidget {
                 ),
               ],
             ).gap(10),
+
             Divider().withPadding(all: 32),
             Text('Benötigen Sie Hilfe? Kontaktieren Sie uns.').muted.small,
           ],

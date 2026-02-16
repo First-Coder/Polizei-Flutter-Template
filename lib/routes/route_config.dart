@@ -17,12 +17,29 @@ import '../screens/widgets/layouts/main_layout.dart';
 import 'cubit/router_cubit.dart';
 
 /// Root navigator key used by [GoRouter] for top-level navigation.
+///
+/// This is typically required when you want to:
+/// - Control the top-most navigator (dialogs, full-screen pages)
+/// - Use nested navigation (e.g. shell routes) while keeping a stable root
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
+/// Application routing configuration based on `go_router`.
+///
+/// This class wires together:
+/// - Route names/paths from [RouteNames]
+/// - Auth-based redirects based on [AuthBloc]
+/// - "Last known route" recovery based on [RouterCubit] (useful during hot reload)
+/// - Route transition logging via `talker` and [TalkerRouteObserver]
 class RouteConfig {
   /// Creates and returns the application's router.
   ///
   /// [talker] is used for route logging and diagnostics.
+  ///
+  /// Redirect behavior:
+  /// - If auth is not initialized, the user is sent to the initialize route,
+  ///   with a `from` query parameter containing the originally requested path.
+  /// - If authorized and currently at the initialize location, the router may
+  ///   redirect to [RouterCubit.lastKnownRoute] to restore navigation state.
   static GoRouter returnRouter(Talker talker) {
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
@@ -33,11 +50,10 @@ class RouteConfig {
       /// Observers can log route transitions (e.g. for debugging/analytics).
       observers: [TalkerRouteObserver(talker)],
       errorPageBuilder: (context, state) {
+        // Fallback page used when GoRouter cannot match a route.
         return MaterialPage(
           key: state.pageKey,
-          child: Scaffold(
-            child: NotFoundScreen(),
-          ),
+          child: Scaffold(child: NotFoundScreen()),
         );
       },
 
@@ -47,7 +63,10 @@ class RouteConfig {
       /// routing decisions (e.g. based on auth/router cubits) and return `null`
       /// whenever no redirect is required.
       redirect: (BuildContext context, GoRouterState state) async {
+        // Encode the "from" path so we can return after initialization/login.
         final from = Uri.encodeComponent(state.fullPath ?? RouteNames.homeUrl);
+
+        // Read required state managers from the widget tree.
         final authBloc = context.read<AuthBloc>();
         final routerCubit = context.read<RouterCubit>();
 
@@ -79,17 +98,13 @@ class RouteConfig {
         //   return null;
         // }
 
-        // Not yet initialized, wait. The router will use initialLocation.
-        // OR: If a lastKnownRoute exists AND the user doesn't necessarily need to go to login,
-        // one could try to go there, but this is more complex due to the auth check.
-        // For now, it's safer to return null here and wait for the auth state.
+        // Not yet initialized: stay within initialization flow.
         if (authBloc.state is AuthNotInitialized) {
           return '${RouteNames.initializeUrl}?from=$from';
         }
 
-        // IF we are logged in AND the router would go to initialLocation,
-        // BUT we have a different `lastKnownRoute` that isn't login/register:
-        // This is the main point for the hot reload case.
+        // If authorized and currently at initialLocation, attempt to restore
+        // the last known valid route (useful e.g. after hot reload).
         if (authBloc.state is Authorized && // Ensure we are logged in
             state.uri.path ==
                 RouteNames
@@ -102,12 +117,9 @@ class RouteConfig {
               '  To: ${routerCubit.lastKnownRoute}',
             );
           }
+
           // Important: Ensure this route actually exists and is reachable!
-          // You could add an additional check here.
-          String targetRoute = routerCubit.lastKnownRoute!;
-          // Clear the lastKnownRoute after using it to avoid getting into loops,
-          // or implement logic that detects we are already on our way there.
-          // navigationCubit.storeCurrentRoute(null); // Or another strategy
+          final String targetRoute = routerCubit.lastKnownRoute!;
           return targetRoute;
         }
 

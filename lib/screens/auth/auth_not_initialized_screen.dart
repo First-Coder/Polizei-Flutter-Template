@@ -16,7 +16,32 @@ import '../../bloc/auth/auth_bloc.dart';
 import '../../routes/cubit/router_cubit.dart';
 import '../../routes/route_names.dart';
 
+/// Initialization screen shown while the app validates authentication and runs startup tasks.
+///
+/// Responsibilities:
+/// - Display a branded "initialization" UI with progress indicator and task list.
+/// - Execute a sequence of [InitTask] provided by [AuthInitTasks].
+/// - Track and display per-task states using [LoadingService].
+/// - Navigate to the appropriate route once initialization succeeds and the user is authorized.
+///
+/// Navigation resume logic:
+/// - The screen attempts to continue to the best available destination:
+///   1) `lastKnownRoute` from [RouterCubit] (persisted route restoration)
+///   2) [from] query parameter (the originally requested route before redirect)
+///   3) fallback to [RouteNames.homeUrl]
+///
+/// Theme behavior:
+/// - Uses [ThemeCubit] to render theme-aware gradients and colors.
+/// - Uses `.animatePulse(...)` to add subtle motion while initialization is running.
+///
+/// Notes:
+/// - Task progress is coarse-grained (task index based), not per-task internal progress.
+/// - If a task fails, the UI exposes a retry button that resets the task index to 0.
+///   (It does not rebuild the task list itself.)
 class AuthNotInitializedScreen extends StatefulWidget {
+  /// Creates the initialization screen.
+  ///
+  /// [from] can be provided to indicate where the router originally wanted to go.
   const AuthNotInitializedScreen({super.key, this.from});
 
   /// Optional route we attempted to navigate to before initialization.
@@ -93,6 +118,7 @@ class _AuthNotInitializedScreenState extends State<AuthNotInitializedScreen> {
         (widget.from == null || widget.from == RouteNames.initializeUrl
             ? null
             : widget.from);
+
     if (state is Authorized) {
       context.go(
         fromUrl == RouteNames.initializeUrl
@@ -197,6 +223,8 @@ class _AuthNotInitializedScreenState extends State<AuthNotInitializedScreen> {
                           ),
                         ),
                         Gap(24),
+
+                        // Task list: each entry runs when its index matches _currentTaskIndex.
                         Column(
                           children: _initTasks.asMap().entries.map((entry) {
                             final index = entry.key;
@@ -230,7 +258,10 @@ class _AuthNotInitializedScreenState extends State<AuthNotInitializedScreen> {
                             );
                           }).toList(),
                         ).gap(10),
+
                         Gap(24),
+
+                        // Error section shown when all tasks finished but at least one failed.
                         if (_initTasks.length == _currentTaskIndex && _hasError)
                           SizedBox(
                             width: double.infinity,

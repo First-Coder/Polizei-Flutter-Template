@@ -7,6 +7,25 @@ import '../../../settings/error_settings.dart';
 import '../../../theme/cubit/theme_cubit.dart';
 import '../icon_container.dart';
 
+/// A reusable card widget for displaying a "Not Authorized" (HTTP 403) page section.
+///
+/// Intended usage:
+/// - Embedded into a full-screen error page layout (e.g. `NotAuthorizedScreen`)
+/// - Can also be used inside other layouts as a standalone error component.
+///
+/// Features:
+/// - Theme-aware rendering using [ThemeCubit].
+/// - Optional custom border colors via [color] and [darkColor].
+/// - Optional drop shadow via [withShadow].
+/// - Configurable copy list via [accessInformations], with fallback to [ErrorSettings].
+///
+/// Navigation:
+/// - Provides a "Back" action using `context.pop()` (enabled only if `canPop()`).
+/// - Provides a "Go to home" action using `context.goNamed(...)` configured by
+///   [ErrorSettings.accessInformationHomeLink].
+///
+/// Note:
+/// - User-facing copy is German; consider i18n if needed.
 class NotAuthorizedCard extends StatelessWidget {
   const NotAuthorizedCard({
     super.key,
@@ -16,17 +35,24 @@ class NotAuthorizedCard extends StatelessWidget {
     this.withShadow = false,
   });
 
+  /// Optional list of access information bullets shown to the user.
+  ///
+  /// If null, falls back to [ErrorSettings.accessInformations].
   final List<String>? accessInformations;
 
+  /// Whether to show a large soft shadow around the card.
   final bool withShadow;
 
+  /// Optional border color used in light mode.
   final Color? color;
 
+  /// Optional border color used in dark mode.
   final Color? darkColor;
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = context.watch<ThemeCubit>().state.isDarkMode;
+
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: 720),
       child: Card(
@@ -81,6 +107,8 @@ class NotAuthorizedCard extends StatelessWidget {
                   ),
             ),
             Gap(24),
+
+            // Information section.
             SizedBox(
               width: double.infinity,
               child: Card(
@@ -126,7 +154,10 @@ class NotAuthorizedCard extends StatelessWidget {
                 ),
               ),
             ).withPadding(horizontal: 30),
+
             Gap(32),
+
+            // Primary actions.
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -144,6 +175,7 @@ class NotAuthorizedCard extends StatelessWidget {
                 ),
               ],
             ).gap(10),
+
             Divider().withPadding(all: 32),
             Text('Benötigen Sie Hilfe? Kontaktieren Sie uns.').muted.small,
           ],

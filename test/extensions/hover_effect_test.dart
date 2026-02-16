@@ -2,6 +2,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:police_flutter_template/extensions/widgets/hover_effect.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+/// Widget tests for [HoverEffect].
+///
+/// These tests focus on correctness and stability in a test environment:
+/// - On typical widget-test platforms, hover is not available, so [MouseRegion]
+///   is not expected to be built.
+/// - Tap/click behavior should still work when `onTap` is provided.
+/// - When `enabled` is false, the widget should still build and allow taps
+///   (if `onTap` is set), but hover-specific behavior is effectively disabled.
 void main() {
   group('HoverEffect', () {
     testWidgets(

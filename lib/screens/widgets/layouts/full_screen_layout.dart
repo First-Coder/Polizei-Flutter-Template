@@ -6,11 +6,25 @@ import '../../../extensions/text_extensions.dart';
 import '../../../settings/app_constants.dart';
 import 'multi_provider_layout.dart';
 
+/// Full-screen layout scaffold used by standalone pages (e.g. error pages).
+///
+/// Responsibilities:
+/// - Provides a consistent header (logo + project title + organization).
+/// - Displays the provided [children] as centered content.
+/// - Renders a footer containing the app version and copyright.
+/// - Supports an optional background [decoration] (e.g. gradients).
+///
+/// Implementation notes:
+/// - The app version is loaded asynchronously via `package_info_plus`.
+/// - Content is scrollable, but also constrained to fill the viewport height.
 class FullScreenLayout extends StatefulWidget {
+  /// Creates a full-screen layout with a header, scrollable content, and footer.
   const FullScreenLayout({super.key, required this.children, this.decoration});
 
+  /// Main content widgets inserted between header and footer.
   final List<Widget> children;
 
+  /// Optional background decoration (often a gradient) applied to the whole page.
   final Decoration? decoration;
 
   @override
@@ -30,6 +44,8 @@ class _FullScreenLayoutState extends State<FullScreenLayout> {
   }
 
   /// Loads app information (e.g. version) from the underlying platform.
+  ///
+  /// This method updates state only if the widget is still mounted.
   Future<void> _loadAppInfo() async {
     final packageInfo = await PackageInfo.fromPlatform();
     if (!mounted) return;
@@ -77,9 +93,7 @@ class _FullScreenLayoutState extends State<FullScreenLayout> {
                                     lightColor: Colors.blue[900],
                                     darkColor: Colors.blue[700],
                                   ),
-                                  Text(
-                                    AppConstants.organization,
-                                  ).setColors(
+                                  Text(AppConstants.organization).setColors(
                                     lightColor: Colors.gray[600],
                                     darkColor: Colors.gray[400],
                                   ),

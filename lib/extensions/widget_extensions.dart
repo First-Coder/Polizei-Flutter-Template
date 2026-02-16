@@ -2,11 +2,23 @@ import 'package:police_flutter_template/extensions/widgets/hover_effect.dart';
 import 'package:police_flutter_template/extensions/widgets/pulse_animation_wrapper.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
+/// General-purpose widget extensions to enhance UI affordances.
+///
+/// These helpers are designed to be:
+/// - easy to chain (`someWidget.animatePulse().withHoverEffect(...)`)
+/// - safe to disable (`enabled: false` returns the original widget)
+///
+/// Included effects:
+/// - [animatePulse]: opacity pulsing via [PulseAnimationWrapper]
+/// - [withHoverEffect]: hover/tap affordance via [HoverEffect] (desktop/web focused)
 extension WidgetExtensions on Widget {
-  /// Applies a pulsing animation to this widget.
+  /// Applies a pulsing opacity animation to this widget.
   ///
   /// This is useful for subtle attention cues (e.g. status indicators).
   /// If [enabled] is `false`, the widget is returned unchanged.
+  ///
+  /// See also:
+  /// - [PulseAnimationWrapper] for implementation details.
   Widget animatePulse({
     bool enabled = true,
     Duration duration = const Duration(seconds: 2),
@@ -35,7 +47,7 @@ extension WidgetExtensions on Widget {
   /// - [AnimatedContainer] for background, shadow and border transitions
   ///
   /// Notes:
-  /// - On mobile platforms there is no hover; the widget is returned without
+  /// - On mobile platforms there is no hover; the widget will be built without
   ///   hover listeners (but it can still be tappable via [onTap]).
   /// - If you provide [onTap], the cursor becomes a click cursor on hover.
   ///
@@ -48,6 +60,9 @@ extension WidgetExtensions on Widget {
   ///     hoverBorderColor: Colors.blue[400],
   ///   );
   /// ```
+  ///
+  /// See also:
+  /// - [HoverEffect] for the platform gating and rendering details.
   Widget withHoverEffect({
     /// The scale applied while hovered.
     ///

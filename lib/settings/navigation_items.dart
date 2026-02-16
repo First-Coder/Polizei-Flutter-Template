@@ -6,38 +6,57 @@ import '../routes/route_names.dart';
 
 /// Factory/provider for the application's navigation tree.
 ///
-/// This class builds a list of [NavigationItemModel] definitions that can be rendered
-/// by a layout (e.g. sidebar/drawer).
+/// This class builds lists of [NavigationItemModel] that can be rendered by a layout
+/// (e.g. sidebar, drawer, or top navigation).
+///
+/// Key concepts:
+/// - Items can be **leaf nodes** (with [NavigationItemModel.onPressed]) or
+///   **group nodes** (with [NavigationItemModel.children]).
+/// - Navigation can be performed either by:
+///   - switching a `StatefulShellRoute` branch via [StatefulNavigationShell.goBranch], or
+///   - pushing standalone routes via `go_router` (e.g. `context.pushNamed(...)`).
 ///
 /// Why it needs a [BuildContext]:
-/// The navigation actions use `go_router` (e.g. `context.pushNamed(...)`), so the
-/// current widget context is required to build [onPressed] callbacks.
+/// - Some actions use `go_router` APIs on the current context.
 ///
-/// Note:
-/// `shadcn_flutter` also defines a `NavigationItem`, therefore the import uses
-/// `hide NavigationItem` to avoid a name collision with the local model.
+/// Name collision note:
+/// - `shadcn_flutter` also defines a `NavigationItem`. The import hides it to avoid
+///   clashes with the local model naming.
 class NavigationItems {
-  /// Creates a navigation item provider for the given [context].
+  /// Creates a navigation item provider for the given [context] and [navigationShell].
   const NavigationItems({required this.context, required this.navigationShell});
 
-  /// The context used to construct navigation callbacks (e.g. `go_router` calls).
+  /// Context used to build route callbacks.
   final BuildContext context;
 
+  /// The navigation shell used for branch-based navigation (IndexedStack).
   final StatefulNavigationShell navigationShell;
 
+  /// If true, the UI may prefer top navigation over a sidebar (based on width).
+  ///
+  /// This is a simple configuration flag used by layouts.
   final useTopNavigation = true;
 
+  /// Breakpoint width (in logical pixels) where the UI may switch to top navigation.
   final topNavigationBreakWidth = 900;
 
+  /// Profile-related navigation items (typically shown in a user/profile menu).
+  ///
+  /// Note: These currently have no actions attached (index is null, onPressed is null),
+  /// so the consuming UI decides what to do (or they are placeholders).
   List<NavigationItemModel> get profileItems => [
     NavigationItemModel(index: null, title: "Mein Profil"),
     NavigationItemModel(index: null, title: "Einstellungen"),
   ];
 
-  /// The static navigation definition for the app.
+  /// Main navigation items for the app.
   ///
-  /// - Leaf items provide [NavigationItemModel.onPressed].
-  /// - Group items provide [NavigationItemModel.children].
+  /// Current structure:
+  /// - Home branch (index 0)
+  /// - Components group, containing:
+  ///   - Buttons branch (index 1)
+  ///   - Standalone error pages (404/403/500) navigated via named routes
+  /// - External documentation link (opens in browser)
   List<NavigationItemModel> get items => [
     NavigationItemModel(
       index: 0,
