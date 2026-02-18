@@ -11,9 +11,6 @@ class ButtonThemes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = context.watch<ThemeCubit>().state.isDarkMode;
-    final bgColor = isDark ? Colors.gray[400] : Colors.gray[100];
-    final textColor = isDark ? Colors.black : Colors.blue[900];
-    final iconColor = textColor;
     return ComponentTheme(
       data: OutlineButtonTheme(
         decoration: (context, states, defaultDecoration) {
@@ -33,7 +30,7 @@ class ButtonThemes extends StatelessWidget {
             );
           } else {
             return defaultDecoration.copyWithIfBoxDecoration(
-              color: bgColor,
+              color: isDark ? Colors.gray[400] : Colors.gray[100],
               border: Border.all(
                 color: isDark ? Colors.blue[100] : Colors.blue[900],
               ),
@@ -41,10 +38,10 @@ class ButtonThemes extends StatelessWidget {
           }
         },
         textStyle: (context, states, defaultTextStyle) {
-          return defaultTextStyle.copyWith(color: textColor);
+          return defaultTextStyle.copyWith(color: isDark ? Colors.black : Colors.blue[900]);
         },
         iconTheme: (context, states, defaultIconTheme) {
-          return defaultIconTheme.copyWith(color: iconColor);
+          return defaultIconTheme.copyWith(color: isDark ? Colors.black : Colors.blue[900]);
         },
       ),
       child: ComponentTheme(
@@ -59,24 +56,20 @@ class ButtonThemes extends StatelessWidget {
                 color: isDark ? Colors.gray[300] : Colors.gray[200],
               );
             } else {
-              return defaultDecoration.copyWithIfBoxDecoration(color: bgColor);
+              return defaultDecoration.copyWithIfBoxDecoration(color: isDark ? Colors.gray[400] : Colors.gray[100]);
             }
           },
           textStyle: (context, states, defaultTextStyle) {
-            return defaultTextStyle.copyWith(color: textColor);
+            return defaultTextStyle.copyWith(color: isDark ? Colors.black : Colors.blue[900]);
           },
           iconTheme: (context, states, defaultIconTheme) {
-            return defaultIconTheme.copyWith(color: iconColor);
+            return defaultIconTheme.copyWith(color: isDark ? Colors.black : Colors.blue[900]);
           },
         ),
         child: ComponentTheme(
           data: GhostButtonTheme(
             decoration: (context, states, defaultDecoration) {
-              if (states.contains(WidgetState.disabled)) {
-                return defaultDecoration.copyWithIfBoxDecoration(
-                  color: Colors.transparent,
-                );
-              } else if (states.contains(WidgetState.hovered)) {
+              if (states.contains(WidgetState.hovered)) {
                 return defaultDecoration.copyWithIfBoxDecoration(
                   color: isDark ? Colors.gray[600] : Colors.gray[100],
                 );
@@ -91,10 +84,6 @@ class ButtonThemes extends StatelessWidget {
                 return defaultTextStyle.copyWith(
                   color: isDark ? Colors.gray[300] : Colors.gray[600],
                 );
-              } else if (states.contains(WidgetState.hovered)) {
-                return defaultTextStyle.copyWith(
-                  color: isDark ? Colors.gray[300] : Colors.blue[900],
-                );
               } else {
                 return defaultTextStyle.copyWith(
                   color: isDark ? Colors.gray[300] : Colors.blue[900],
@@ -102,9 +91,15 @@ class ButtonThemes extends StatelessWidget {
               }
             },
             iconTheme: (context, states, defaultIconTheme) {
-              return defaultIconTheme.copyWith(
-                color: isDark ? Colors.gray[300] : Colors.blue[900],
-              );
+              if (states.contains(WidgetState.disabled)) {
+                return defaultIconTheme.copyWith(
+                  color: isDark ? Colors.gray[300] : Colors.gray[600],
+                );
+              } else {
+                return defaultIconTheme.copyWith(
+                  color: isDark ? Colors.gray[300] : Colors.blue[900],
+                );
+              }
             },
           ),
           child: ComponentTheme(
