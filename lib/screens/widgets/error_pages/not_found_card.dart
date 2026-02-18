@@ -1,9 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:police_flutter_template/extensions/text_extensions.dart';
-import 'package:police_flutter_template/screens/widgets/icon_container.dart';
 import 'package:police_flutter_template/settings/error_settings.dart';
-import 'package:shadcn_flutter/shadcn_flutter.dart' hide IconContainer;
+import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../theme/cubit/theme_cubit.dart';
 
@@ -79,11 +78,13 @@ class NotFoundCard extends StatelessWidget {
         child: Column(
           children: [
             IconContainer(
-              color: Colors.blue[100],
-              darkColor: Colors.blue[900].withAlpha(100),
-              icon: LucideIcons.fileQuestion,
-              iconColor: Colors.blue[900],
-              iconDarkColor: Colors.blue[400],
+              icon: Icon(LucideIcons.fileQuestion, size: 48),
+              backgroundColor: isDarkMode
+                  ? Colors.blue[900].withAlpha(100)
+                  : Colors.blue[100],
+              iconColor: isDarkMode ? Colors.blue[400] : Colors.blue[900],
+              borderRadius: BorderRadius.circular(999),
+              padding: EdgeInsets.all(24),
             ),
             Gap(24),
             Text('404').bold.x8Large.setColors(

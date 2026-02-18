@@ -1,11 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shadcn_flutter/shadcn_flutter.dart' hide IconContainer;
+import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../extensions/text_extensions.dart';
 import '../../../settings/error_settings.dart';
 import '../../../theme/cubit/theme_cubit.dart';
-import '../icon_container.dart';
 
 /// A reusable card widget for displaying a "Not Authorized" (HTTP 403) page section.
 ///
@@ -78,11 +77,13 @@ class NotAuthorizedCard extends StatelessWidget {
         child: Column(
           children: [
             IconContainer(
-              color: Colors.orange[100],
-              darkColor: Colors.orange[900].withAlpha(100),
-              icon: LucideIcons.shieldAlert,
-              iconColor: Colors.orange[600],
-              iconDarkColor: Colors.orange[400],
+              icon: Icon(LucideIcons.shieldAlert, size: 48),
+              backgroundColor: isDarkMode
+                  ? Colors.orange[900].withAlpha(100)
+                  : Colors.orange[100],
+              iconColor: isDarkMode ? Colors.orange[400] : Colors.orange[600],
+              borderRadius: BorderRadius.circular(999),
+              padding: EdgeInsets.all(24),
             ),
             Gap(24),
             Text('403').bold.x8Large.setColors(
