@@ -98,6 +98,7 @@ class CodeCard extends StatelessWidget {
     super.key,
     this.title,
     this.description,
+    this.example,
     required this.lines,
   });
 
@@ -106,6 +107,9 @@ class CodeCard extends StatelessWidget {
 
   /// Optional supporting text shown below the title.
   final String? description;
+
+  /// Optional example widget to render inside the code container.
+  final Widget? example;
 
   /// The content lines rendered inside the code container.
   ///
@@ -143,6 +147,7 @@ class CodeCard extends StatelessWidget {
           ).gap(10),
           if (description != null) ...[Gap(10), Text(description!).muted],
           Gap(24),
+          if (example != null) ...[example!, Gap(24)],
           Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),

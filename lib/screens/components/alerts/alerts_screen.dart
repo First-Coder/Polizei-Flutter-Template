@@ -12,21 +12,77 @@ class AlertsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Gap(32),
           Text('Alert Komponente verwenden').h4,
-          Gap(10),
-          Alert.basic(
-            backgroundColor: Colors.teal[50],
-            backgroundColorDark: Colors.teal[900].withAlpha(100),
-            borderColor: Colors.teal[500],
-            borderColorDark: Colors.teal[400],
-            leading: Icon(LucideIcons.bell),
-            trailing: Icon(LucideIcons.x),
-            title: "Meldung",
-            content: "Dies ist eine Meldung.",
+          CodeCard(
+            title: "Alert",
+            example: SizedBox(
+              width: double.infinity,
+              child: Alert(
+                backgroundColor: Colors.gray[50],
+                backgroundColorDark: Colors.gray[900].withAlpha(100),
+                borderColor: Colors.gray[500],
+                borderColorDark: Colors.gray[400],
+                borderRadius: BorderRadius.circular(8),
+                borderWidth: 4,
+                child: Basic(
+                  leading: Icon(LucideIcons.bell),
+                  trailing: Icon(LucideIcons.x),
+                  title: Text("Meldung"),
+                  content: Text("Dies ist eine Meldung."),
+                ),
+              ),
+            ),
+            lines: [
+              CodeTextLine("Alert("),
+              CodeTextLine("  backgroundColor: Colors.teal[50],"),
+              CodeTextLine(
+                "  backgroundColorDark: Colors.teal[900].withAlpha(100),",
+              ),
+              CodeTextLine("  borderColor: Colors.teal[500],"),
+              CodeTextLine("  borderColorDark: Colors.teal[400],"),
+              CodeTextLine("  borderRadius: BorderRadius.circular(8),"),
+              CodeTextLine("  borderWidth: 4,"),
+              CodeTextLine("  child: Basic("),
+              CodeTextLine("    leading: Icon(LucideIcons.bell),"),
+              CodeTextLine("    trailing: Icon(LucideIcons.x),"),
+              CodeTextLine("    title: Text('Meldung'),"),
+              CodeTextLine("    content: Text('Dies ist eine Meldung.'),"),
+              CodeTextLine("  ),"),
+              CodeTextLine(");"),
+            ],
           ),
-          Gap(10),
-          CodeCard(lines: []),
+          CodeCard(
+            title: "Alert.basic",
+            description:
+                "Beschreibt die Alert Komponente mithilfe der \"basic\" Konfiguration.",
+            example: SizedBox(
+              width: double.infinity,
+              child: Alert.basic(
+                backgroundColor: Colors.teal[50],
+                backgroundColorDark: Colors.teal[900].withAlpha(100),
+                borderColor: Colors.teal[500],
+                borderColorDark: Colors.teal[400],
+                leading: Icon(LucideIcons.bell),
+                trailing: Icon(LucideIcons.x),
+                title: "Meldung",
+                content: "Dies ist eine Meldung.",
+              ),
+            ),
+            lines: [
+              CodeTextLine("Alert.basic("),
+              CodeTextLine("  backgroundColor: Colors.teal[50],"),
+              CodeTextLine(
+                "  backgroundColorDark: Colors.teal[900].withAlpha(100),",
+              ),
+              CodeTextLine("  borderColor: Colors.teal[500],"),
+              CodeTextLine("  borderColorDark: Colors.teal[400],"),
+              CodeTextLine("  leading: Icon(LucideIcons.bell),"),
+              CodeTextLine("  trailing: Icon(LucideIcons.x),"),
+              CodeTextLine("  title: 'Meldung',"),
+              CodeTextLine("  content: 'Dies ist eine Meldung.',"),
+              CodeTextLine(");"),
+            ],
+          ),
           Gap(20),
           Text('Vordefinierte Alert Komponenten').h4,
           Gap(10),
@@ -55,9 +111,8 @@ class AlertsScreen extends StatelessWidget {
             content:
                 "Bei der Verarbeitung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
           ),
-          Gap(32),
         ],
-      ),
+      ).gap(10).withPadding(vertical: 30),
     ).withPadding(horizontal: 20);
   }
 }
