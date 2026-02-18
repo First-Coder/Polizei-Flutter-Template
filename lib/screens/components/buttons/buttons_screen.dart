@@ -1,4 +1,3 @@
-import 'package:police_flutter_template/screens/widgets/code_block.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import '../../../extensions/text_extensions.dart';
 import '../../widgets/code_card.dart';
@@ -25,31 +24,73 @@ class ButtonsScreen extends StatelessWidget {
           darkColor: Colors.blue[400],
         ),
         Gap(64),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 300),
-              child: PrimaryButton(
-                onPressed: () {},
-                child: const Text('Primärer Button'),
-              ),
-            ).withPadding(horizontal: 20),
-            ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600),
-              child: CodeBlock(
-                lines: [
-                  CodeCommentLine("# Beispiel für Primären Button"),
-                  CodeTextLine(
-                    "PrimaryButton(",
+        ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 1000),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Primäre Buttons").x3Large.h1.setColors(
+                    lightColor: Colors.gray[800],
+                    darkColor: Colors.white,
                   ),
-                  CodeTextLine("  onPressed: () {},"),
-                  CodeTextLine("  child: const Text('Primärer Button'),"),
-                  CodeTextLine("),"),
                 ],
               ),
-            ).withPadding(horizontal: 10),
-          ],
+              Gap(20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 200,
+                    child: Column(
+                      children: [
+                        PrimaryButton(
+                          onPressed: () {},
+                          child: const Text('Standard'),
+                        ),
+                        Gap(10),
+                        PrimaryButton(
+                          leading: const Icon(LucideIcons.download),
+                          onPressed: () {},
+                          child: const Text('Mit Icon vorne'),
+                        ),
+                        Gap(10),
+                        PrimaryButton(
+                          trailing: const Icon(LucideIcons.arrowRight),
+                          onPressed: () {},
+                          child: const Text('Mit Icon hinten'),
+                        ),
+                        Gap(10),
+                        PrimaryButton(
+                          child: const Text('Deaktiviert'),
+                        ),
+                        Gap(10),
+                      ],
+                    ),
+                  ).withPadding(horizontal: 20),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 600),
+                    child: CodeCard(
+                      lines: [
+                        CodeCommentLine("# Beispiel für Primäre Buttons"),
+                        CodeTextLine("PrimaryButton("),
+                        CodeCommentLine("  # Mit Icon vorne"),
+                        CodeTextLine("  leading: const Icon(LucideIcons.download),"),
+                        CodeCommentLine("  # Mit Icon hinten"),
+                        CodeTextLine("  trailing: const Icon(LucideIcons.arrowRight),"),
+                        CodeCommentLine("  # Für aktiven Button (bei deaktiviertem Button weglassen)"),
+                        CodeTextLine("  onPressed: () {},"),
+                        CodeCommentLine("  # Text des Buttons"),
+                        CodeTextLine("  child: const Text('Standard'),"),
+                        CodeTextLine("),"),
+                      ],
+                    ),
+                  ).withPadding(horizontal: 10),
+                ],
+              ),
+            ],
+          ),
         ),
 
         Gap(64),
