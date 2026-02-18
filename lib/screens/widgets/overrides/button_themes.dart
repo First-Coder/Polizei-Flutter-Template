@@ -72,19 +72,12 @@ class ButtonThemes extends StatelessWidget {
         child: ComponentTheme(
           data: GhostButtonTheme(
             decoration: (context, states, defaultDecoration) {
-              if (states.contains(WidgetState.disabled)) {
+              if (states.contains(WidgetState.hovered)) {
                 return defaultDecoration.copyWithIfBoxDecoration(
-                  color: Colors.transparent,
-                );
-              } else if (states.contains(WidgetState.hovered)) {
-                return defaultDecoration.copyWithIfBoxDecoration(
-                  color: isDark ? Colors.gray[600] : Colors.gray[100],
-                );
-              } else {
-                return defaultDecoration.copyWithIfBoxDecoration(
-                  color: Colors.transparent,
+                  color: isDark ? Colors.gray[600] : Colors.gray[200],
                 );
               }
+              return defaultDecoration;
             },
             textStyle: (context, states, defaultTextStyle) {
               if (states.contains(WidgetState.disabled)) {
