@@ -52,4 +52,10 @@ class RouteNames {
 
   /// URL path for the alerts demo route (e.g. `/alerts`).
   static const String alertsUrl = '/$alerts';
+
+  /// Route name for the "cards" component showcase/demo screen.
+  static const String cards = "cards";
+
+  /// URL path for the cards demo route (e.g. `/cards`).
+  static const String cardsUrl = '/$cards';
 }

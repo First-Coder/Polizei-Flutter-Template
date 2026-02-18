@@ -1,11 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shadcn_flutter/shadcn_flutter.dart' hide IconContainer;
+import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../../../extensions/text_extensions.dart';
 import '../../../settings/error_settings.dart';
 import '../../../theme/cubit/theme_cubit.dart';
-import '../icon_container.dart';
 
 /// A reusable card widget for displaying an "Internal Server Error" (HTTP 500) page section.
 ///
@@ -85,11 +84,13 @@ class InternalServerErrorCard extends StatelessWidget {
         child: Column(
           children: [
             IconContainer(
-              color: Colors.red[100],
-              darkColor: Colors.red[900].withAlpha(50),
-              icon: LucideIcons.serverCrash,
-              iconColor: Colors.red[600],
-              iconDarkColor: Colors.red[400],
+              icon: Icon(LucideIcons.serverCrash, size: 48),
+              backgroundColor: isDarkMode
+                  ? Colors.red[900].withAlpha(50)
+                  : Colors.red[100],
+              iconColor: isDarkMode ? Colors.red[400] : Colors.red[600],
+              borderRadius: BorderRadius.circular(999),
+              padding: EdgeInsets.all(24),
             ),
             Gap(24),
             Text('500').bold.x8Large.setColors(
