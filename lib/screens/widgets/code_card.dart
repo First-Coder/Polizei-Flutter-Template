@@ -133,24 +133,31 @@ class CodeCard extends StatelessWidget {
     return Card(
       filled: true,
       fillColor: isDarkMode ? Colors.gray[800] : Colors.transparent,
-      borderColor: isDarkMode ? Colors.gray[700] : Colors.gray[300],
-      padding: EdgeInsets.all(20),
+      borderColor: title == null && description == null
+          ? null
+          : isDarkMode
+          ? Colors.gray[700]
+          : Colors.gray[300],
+      padding: title == null && description == null
+          ? EdgeInsets.zero
+          : EdgeInsets.all(20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              const Icon(LucideIcons.terminal),
-              if (title != null) Text(title!).semiBold,
-            ],
-          ).gap(10),
+          if (title != null)
+            Row(
+              children: [
+                const Icon(LucideIcons.terminal),
+                Text(title!).semiBold,
+              ],
+            ).gap(10),
           if (description != null) ...[Gap(10), Text(description!).muted],
-          Gap(24),
+          if (title != null || description != null) Gap(24),
           if (example != null) ...[example!, Gap(24)],
           Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: isDarkMode ? Colors.gray[700] : Colors.gray[900],
               borderRadius: BorderRadius.circular(10),

@@ -12,7 +12,7 @@ class AlertsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Alert Komponente verwenden').h4,
+          Text('Alert Komponente verwenden').h3,
           CodeCard(
             title: "Alert",
             example: SizedBox(
@@ -84,7 +84,7 @@ class AlertsScreen extends StatelessWidget {
             ],
           ),
           Gap(20),
-          Text('Vordefinierte Alert Komponenten').h4,
+          Text('Vordefinierte Alert Komponenten').h3,
           CodeCard(
             title: "Alert.info",
             description:
@@ -170,7 +170,7 @@ class AlertsScreen extends StatelessWidget {
             ],
           ),
         ],
-      ).gap(10).withPadding(vertical: 30),
+      ).gap(15).withPadding(vertical: 30),
     ).withPadding(horizontal: 20);
   }
 }
