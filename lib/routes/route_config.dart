@@ -6,6 +6,7 @@ import 'package:police_flutter_template/screens/auth/auth_not_initialized_screen
 import 'package:police_flutter_template/screens/components/alerts/alerts_screen.dart';
 import 'package:police_flutter_template/screens/components/buttons/buttons_screen.dart';
 import 'package:police_flutter_template/screens/components/cards/cards_screen.dart';
+import 'package:police_flutter_template/screens/components/forms/forms_screen.dart';
 import 'package:police_flutter_template/screens/components/lists/lists_screen.dart';
 import 'package:police_flutter_template/screens/error_pages/internal_server_error_screen.dart';
 import 'package:police_flutter_template/screens/error_pages/not_found_screen.dart';
@@ -202,6 +203,15 @@ class RouteConfig {
                   name: RouteNames.lists,
                   path: RouteNames.listsUrl,
                   builder: (context, state) => ListsScreen(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  name: RouteNames.forms,
+                  path: RouteNames.formsUrl,
+                  builder: (context, state) => FormsScreen(),
                 ),
               ],
             ),
