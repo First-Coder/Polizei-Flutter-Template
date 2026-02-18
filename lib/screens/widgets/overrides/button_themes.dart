@@ -23,25 +23,31 @@ class ButtonThemes extends StatelessWidget {
             );
           } else if (states.contains(WidgetState.hovered)) {
             return defaultDecoration.copyWithIfBoxDecoration(
-              color: isDark ? Colors.gray[300] : Colors.gray[200],
+              color: isDark ? Colors.gray[600] : Colors.gray[200],
               border: Border.all(
                 color: isDark ? Colors.blue[300] : Colors.blue[600],
               ),
             );
           } else {
             return defaultDecoration.copyWithIfBoxDecoration(
-              color: isDark ? Colors.gray[400] : Colors.gray[100],
+              color: isDark
+                  ? Colors.gray.withAlpha(0)
+                  : Colors.white.withAlpha(0),
               border: Border.all(
-                color: isDark ? Colors.blue[100] : Colors.blue[900],
+                color: isDark ? Colors.gray[200] : Colors.blue[900],
               ),
             );
           }
         },
         textStyle: (context, states, defaultTextStyle) {
-          return defaultTextStyle.copyWith(color: isDark ? Colors.black : Colors.blue[900]);
+          return defaultTextStyle.copyWith(
+            color: isDark ? Colors.gray[200] : Colors.blue[900],
+          );
         },
         iconTheme: (context, states, defaultIconTheme) {
-          return defaultIconTheme.copyWith(color: isDark ? Colors.black : Colors.blue[900]);
+          return defaultIconTheme.copyWith(
+            color: isDark ? Colors.gray[200] : Colors.blue[900],
+          );
         },
       ),
       child: ComponentTheme(
@@ -56,14 +62,20 @@ class ButtonThemes extends StatelessWidget {
                 color: isDark ? Colors.gray[300] : Colors.gray[200],
               );
             } else {
-              return defaultDecoration.copyWithIfBoxDecoration(color: isDark ? Colors.gray[400] : Colors.gray[100]);
+              return defaultDecoration.copyWithIfBoxDecoration(
+                color: isDark ? Colors.gray[400] : Colors.gray[100],
+              );
             }
           },
           textStyle: (context, states, defaultTextStyle) {
-            return defaultTextStyle.copyWith(color: isDark ? Colors.black : Colors.blue[900]);
+            return defaultTextStyle.copyWith(
+              color: isDark ? Colors.black : Colors.blue[900],
+            );
           },
           iconTheme: (context, states, defaultIconTheme) {
-            return defaultIconTheme.copyWith(color: isDark ? Colors.black : Colors.blue[900]);
+            return defaultIconTheme.copyWith(
+              color: isDark ? Colors.black : Colors.blue[900],
+            );
           },
         ),
         child: ComponentTheme(
@@ -109,20 +121,20 @@ class ButtonThemes extends StatelessWidget {
                 } else if (states.contains(WidgetState.hovered)) {
                   return defaultDecoration.copyWithIfBoxDecoration(
                     color: Colors.red[700],
-                    border: Border.all(color: Colors.red[700]),
+                    border: Border.all(color: Colors.red[600]),
                   );
                 } else {
                   return defaultDecoration.copyWithIfBoxDecoration(
                     color: Colors.red[500],
-                    border: Border.all(color: Colors.red[700]),
+                    border: Border.all(color: Colors.red[600]),
                   );
                 }
               },
               textStyle: (context, states, defaultTextStyle) {
-                return defaultTextStyle.copyWith(color: Colors.white);
+                return defaultTextStyle.copyWith(color: Colors.gray[100]);
               },
               iconTheme: (context, states, defaultIconTheme) {
-                return defaultIconTheme.copyWith(color: Colors.white);
+                return defaultIconTheme.copyWith(color: Colors.gray[100]);
               },
             ),
             child: ComponentTheme(
