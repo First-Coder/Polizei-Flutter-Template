@@ -85,31 +85,89 @@ class AlertsScreen extends StatelessWidget {
           ),
           Gap(20),
           Text('Vordefinierte Alert Komponenten').h4,
-          Gap(10),
-          Alert.info(
-            title: "Information",
-            content:
-                "Bitte beachten Sie die aktuellen Öffnungszeiten während der Feiertage.",
+          CodeCard(
+            title: "Alert.info",
+            description:
+                "Beschreibt die Alert Komponente mithilfe der \"info\" Konfiguration.",
+            example: SizedBox(
+              width: double.infinity,
+              child: Alert.info(
+                title: "Information",
+                content:
+                    "Bitte beachten Sie die aktuellen Öffnungszeiten während der Feiertage.",
+              ),
+            ),
+            lines: [
+              CodeTextLine("Alert.info("),
+              CodeTextLine("  title: 'Information',"),
+              CodeTextLine(
+                "  content: 'Bitte beachten Sie die aktuellen Öffnungszeiten während der Feiertage.'",
+              ),
+              CodeTextLine(");"),
+            ],
           ),
-
-          Alert.success(
-            title: "Erfolgreich",
-            content:
-                "Ihre Anfrage wurde erfolgreich bearbeitet und ist nun im System hinterlegt.",
+          CodeCard(
+            title: "Alert.success",
+            description:
+                "Beschreibt die Alert Komponente mithilfe der \"success\" Konfiguration.",
+            example: SizedBox(
+              width: double.infinity,
+              child: Alert.success(
+                title: "Erfolgreich",
+                content:
+                    "Ihre Anfrage wurde erfolgreich bearbeitet und ist nun im System hinterlegt.",
+              ),
+            ),
+            lines: [
+              CodeTextLine("Alert.success("),
+              CodeTextLine("  title: 'Erfolgreich',"),
+              CodeTextLine(
+                "  content: 'Ihre Anfrage wurde erfolgreich bearbeitet und ist nun im System hinterlegt.'",
+              ),
+              CodeTextLine(");"),
+            ],
           ),
-          Gap(10),
-          Gap(20),
-          Alert.error(
-            title: "Warnung",
-            content:
-                "Aktuell kommt es zu längeren Wartezeiten. Bitte planen Sie mehr Zeit ein.",
+          CodeCard(
+            title: "Alert.warning",
+            description:
+                "Beschreibt die Alert Komponente mithilfe der \"warning\" Konfiguration.",
+            example: SizedBox(
+              width: double.infinity,
+              child: Alert.warning(
+                title: "Warnung",
+                content:
+                    "Aktuell kommt es zu längeren Wartezeiten. Bitte planen Sie mehr Zeit ein.",
+              ),
+            ),
+            lines: [
+              CodeTextLine("Alert.warning("),
+              CodeTextLine("  title: 'Warnung',"),
+              CodeTextLine(
+                "  content: 'Aktuell kommt es zu längeren Wartezeiten. Bitte planen Sie mehr Zeit ein.'",
+              ),
+              CodeTextLine(");"),
+            ],
           ),
-          Gap(10),
-          Gap(20),
-          Alert.warning(
-            title: "Fehler",
-            content:
-                "Bei der Verarbeitung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+          CodeCard(
+            title: "Alert.error",
+            description:
+                "Beschreibt die Alert Komponente mithilfe der \"error\" Konfiguration.",
+            example: SizedBox(
+              width: double.infinity,
+              child: Alert.error(
+                title: "Fehler",
+                content:
+                    "Bei der Verarbeitung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+              ),
+            ),
+            lines: [
+              CodeTextLine("Alert.error("),
+              CodeTextLine("  title: 'Fehler',"),
+              CodeTextLine(
+                "  content: 'Bei der Verarbeitung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.'",
+              ),
+              CodeTextLine(");"),
+            ],
           ),
         ],
       ).gap(10).withPadding(vertical: 30),
