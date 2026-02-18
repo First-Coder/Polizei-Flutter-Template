@@ -640,6 +640,45 @@ class ButtonsScreen extends StatelessWidget {
                   ).withPadding(horizontal: 10),
                 ],
               ),
+              Gap(20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 900),
+                    child: CodeCard(
+                      title: 'Personalisierte Buttons',
+                      example: Row(
+                        children: [
+                          Button(
+                            style: const ButtonStyle.primary()
+                                .withBackgroundColor(color: Colors.yellow, hoverColor: Colors.purple)
+                                .withForegroundColor(color: Colors.black, hoverColor: Colors.white)
+                                .withBorderRadius(hoverBorderRadius: BorderRadius.circular(16)),
+                            onPressed: () {},
+                            leading: const Icon(LucideIcons.sun),
+                            trailing: const Icon(LucideIcons.moon),
+                            child: const Text('Personalisierter Button'),
+                          ),
+                        ],
+                      ),
+                      lines: [
+                        CodeCommentLine("# Beispiel für Personalisierte Buttons"),
+                        CodeTextLine("Button("),
+                        CodeTextLine("  style: const ButtonStyle.primary()"),
+                        CodeTextLine("    .withBackgroundColor(color: Colors.yellow, hoverColor: Colors.purple)"),
+                        CodeTextLine("    .withForegroundColor(color: Colors.black, hoverColor: Colors.white)"),
+                        CodeTextLine("    .withBorderRadius(hoverBorderRadius: BorderRadius.circular(16)),"),
+                        CodeTextLine("  onPressed: () {},"),
+                        CodeTextLine("  leading: const Icon(LucideIcons.sun),"),
+                        CodeTextLine("  trailing: const Icon(LucideIcons.moon),"),
+                        CodeTextLine("  child: const Text('Personalisierter Button'),"),
+                        CodeTextLine("),"),
+                      ],
+                    ),
+                  ).withPadding(horizontal: 10),
+                ],
+              ),
             ],
           ),
         ),
