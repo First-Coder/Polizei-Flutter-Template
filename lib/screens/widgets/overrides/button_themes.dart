@@ -8,7 +8,7 @@ class ButtonThemes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ComponentTheme(
-      data: SecondaryButtonTheme(
+      data: OutlineButtonTheme(
         decoration: (context, states, defaultDecoration) {
           return defaultDecoration;
           // return defaultDecoration.copyWithIfBoxDecoration(
@@ -17,7 +17,18 @@ class ButtonThemes extends StatelessWidget {
           // );
         },
       ),
-      child: child,
+      child: ComponentTheme(
+        data: SecondaryButtonTheme(
+          decoration: (context, states, defaultDecoration) {
+            return defaultDecoration;
+            // return defaultDecoration.copyWithIfBoxDecoration(
+            //   color: Colors.red,
+            //   border: Border.all(color: Colors.green, width: 10),
+            // );
+          },
+        ),
+        child: child,
+      ),
     );
   }
 }
