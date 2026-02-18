@@ -9,9 +9,90 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 /// - safe to disable (`enabled: false` returns the original widget)
 ///
 /// Included effects:
+/// - [liIcon]: list-item affordance (icon + spacing + content), supports Columns
 /// - [animatePulse]: opacity pulsing via [PulseAnimationWrapper]
 /// - [withHoverEffect]: hover/tap affordance via [HoverEffect] (desktop/web focused)
 extension WidgetExtensions on Widget {
+  /// Prepends an icon to this widget to render it like a bullet/list item.
+  ///
+  /// Behavior:
+  /// - **Default:** wraps the current widget in a `Row`:
+  ///   `Icon` + spacing + `Expanded(child: this)`.
+  /// - **Special case – Column:** if this modifier is applied to a [Column], it will
+  ///   wrap **each direct child** of that Column as an individual list item (icon per child),
+  ///   while preserving the Column's layout properties (alignment, direction, etc.).
+  ///
+  /// Nesting / indentation:
+  /// - Uses [Data.inherit] with [UnorderedListData] to increment a logical list depth.
+  ///   (This allows nested list-like structures to be styled/handled consistently.)
+  ///
+  /// Parameters:
+  /// - [icon]: the icon placed before the item (defaults to `LucideIcons.check`).
+  /// - [color]: optional icon color.
+  ///
+  /// Example:
+  /// ```dart
+  /// Column(
+  ///   crossAxisAlignment: CrossAxisAlignment.start,
+  ///   children: const [
+  ///     Text('Online-Anzeige erstatten'),
+  ///     Text('Fundstelle melden'),
+  ///   ],
+  /// ).liIcon(color: Colors.green);
+  /// ```
+  ///
+  /// Tip:
+  /// - When calling `.liIcon()` on a Column, you typically **should not** also call
+  ///   `.liIcon()` on the individual children, otherwise you will see duplicate icons.
+  TextModifier liIcon({IconData icon = LucideIcons.check, Color? color}) =>
+      WrappedText(
+        wrapper: (context, child) {
+          UnorderedListData? data = Data.maybeOf(context);
+          int depth = data?.depth ?? 0;
+          TextStyle style = DefaultTextStyle.of(context).style;
+          double size = (style.fontSize ?? 12) / 6 * 6;
+
+          Widget wrapSingle(Widget item) {
+            return IntrinsicWidth(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height:
+                        ((style.fontSize ?? 12) * (style.height ?? 1)) * 1.2,
+                    child: Icon(icon, size: size, color: color),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Data.inherit(
+                      data: UnorderedListData(depth: depth + 1),
+                      child: item,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          if (child is Column) {
+            final Column col = child;
+            return Column(
+              key: col.key,
+              mainAxisAlignment: col.mainAxisAlignment,
+              mainAxisSize: col.mainAxisSize,
+              crossAxisAlignment: col.crossAxisAlignment,
+              textDirection: col.textDirection,
+              verticalDirection: col.verticalDirection,
+              textBaseline: col.textBaseline,
+              children: [for (final w in col.children) wrapSingle(w)],
+            );
+          }
+
+          return wrapSingle(child);
+        },
+        child: this,
+      );
+
   /// Applies a pulsing opacity animation to this widget.
   ///
   /// This is useful for subtle attention cues (e.g. status indicators).

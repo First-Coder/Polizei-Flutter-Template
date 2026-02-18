@@ -87,6 +87,12 @@ class NavigationItems {
           onPressed: () => navigationShell.goBranch(3, initialLocation: false),
         ),
         NavigationItemModel(
+          index: 4,
+          title: "Lists",
+          icon: const Icon(LucideIcons.list),
+          onPressed: () => navigationShell.goBranch(4, initialLocation: false),
+        ),
+        NavigationItemModel(
           index: null,
           title: "404 Nicht gefunden - Standalone",
           icon: const Icon(LucideIcons.fileQuestion),
