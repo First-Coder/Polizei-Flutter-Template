@@ -75,6 +75,12 @@ class NavigationItems {
           onPressed: () => navigationShell.goBranch(1, initialLocation: false),
         ),
         NavigationItemModel(
+          index: 2,
+          title: "Alerts",
+          icon: const Icon(LucideIcons.circleAlert),
+          onPressed: () => navigationShell.goBranch(2, initialLocation: false),
+        ),
+        NavigationItemModel(
           index: null,
           title: "404 Nicht gefunden - Standalone",
           icon: const Icon(LucideIcons.fileQuestion),

@@ -46,4 +46,10 @@ class RouteNames {
 
   /// URL path for the buttons demo route (e.g. `/buttons`).
   static const String buttonsUrl = '/$buttons';
+
+  /// Route name for the "alerts" component showcase/demo screen.
+  static const String alerts = "alerts";
+
+  /// URL path for the alerts demo route (e.g. `/alerts`).
+  static const String alertsUrl = '/$alerts';
 }

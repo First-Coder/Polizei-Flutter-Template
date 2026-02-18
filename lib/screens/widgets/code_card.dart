@@ -96,13 +96,13 @@ class CodeWidgetLine extends CodeLine {
 class CodeCard extends StatelessWidget {
   const CodeCard({
     super.key,
-    required this.title,
+    this.title,
     this.description,
     required this.lines,
   });
 
   /// The title shown in the header row.
-  final String title;
+  final String? title;
 
   /// Optional supporting text shown below the title.
   final String? description;
@@ -136,7 +136,10 @@ class CodeCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: [const Icon(LucideIcons.terminal), Text(title).semiBold],
+            children: [
+              const Icon(LucideIcons.terminal),
+              if (title != null) Text(title!).semiBold,
+            ],
           ).gap(10),
           if (description != null) ...[Gap(10), Text(description!).muted],
           Gap(24),

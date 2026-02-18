@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:police_flutter_template/routes/route_names.dart';
 import 'package:police_flutter_template/screens/auth/auth_not_initialized_screen.dart';
+import 'package:police_flutter_template/screens/components/alerts/alerts_screen.dart';
 import 'package:police_flutter_template/screens/components/buttons/buttons_screen.dart';
 import 'package:police_flutter_template/screens/error_pages/internal_server_error_screen.dart';
 import 'package:police_flutter_template/screens/error_pages/not_found_screen.dart';
@@ -172,6 +173,15 @@ class RouteConfig {
                   name: RouteNames.buttons,
                   path: RouteNames.buttonsUrl,
                   builder: (context, state) => ButtonsScreen(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  name: RouteNames.alerts,
+                  path: RouteNames.alertsUrl,
+                  builder: (context, state) => AlertsScreen(),
                 ),
               ],
             ),
