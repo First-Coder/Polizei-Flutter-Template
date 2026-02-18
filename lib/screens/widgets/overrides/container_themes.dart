@@ -13,7 +13,10 @@ class ContainerThemes extends StatelessWidget {
     final isDark = context.watch<ThemeCubit>().state.isDarkMode;
     return ComponentTheme(
       data: IconContainerTheme(
-
+        backgroundColor: isDark
+            ? Colors.blue[900].withAlpha(100)
+            : Colors.blue[100],
+        iconColor: isDark ? Colors.blue[400] : Colors.blue[900],
       ),
       child: child,
     );

@@ -12,7 +12,11 @@ class CardThemes extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = context.watch<ThemeCubit>().state.isDarkMode;
     return ComponentTheme(
-      data: CardTheme(fillColor: isDark ? Colors.gray[900] : Colors.white, filled: true, borderColor: isDark ? Colors.gray[700] : Colors.gray[200]),
+      data: CardTheme(
+        fillColor: isDark ? Colors.gray[900] : Colors.white,
+        filled: true,
+        borderColor: isDark ? Colors.gray[700] : Colors.gray[200],
+      ),
       child: child,
     );
   }
