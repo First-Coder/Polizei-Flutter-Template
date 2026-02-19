@@ -7,6 +7,7 @@ class FormsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nameKey = const TextFieldKey('name'); // TextField → String
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -26,42 +27,48 @@ class FormsScreen extends StatelessWidget {
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 900),
                     child: CodeCard(
-                      title: 'Primäre Buttons',
+                      title: 'Text-Eingaben',
                       example: Row(
                         children: [
-                          PrimaryButton(
-                            onPressed: () {},
-                            child: const Text('Standard'),
-                          ),
-                          Gap(10),
-                          PrimaryButton(
-                            leading: const Icon(LucideIcons.download),
-                            onPressed: () {},
-                            child: const Text('Mit Icon vorne'),
-                          ),
-                          Gap(10),
-                          PrimaryButton(
-                            trailing: const Icon(LucideIcons.arrowRight),
-                            onPressed: () {},
-                            child: const Text('Mit Icon hinten'),
-                          ),
-                          Gap(10),
-                          PrimaryButton(
-                            child: const Text('Deaktiviert'),
+                          SizedBox(
+                            width: 500,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                FormField<String>(
+                                  key: nameKey,
+                                  label: const Text('Text-Feld'),
+                                  validator: const LengthValidator(min: 2),
+                                  child: const TextField(
+                                    placeholder: Text('Ihr Text ...'),
+                                    initialValue: '',
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                       lines: [
-                        CodeCommentLine("# Beispiel für Primäre Buttons"),
-                        CodeTextLine("PrimaryButton("),
-                        CodeCommentLine("  # Mit Icon vorne"),
-                        CodeTextLine("  leading: const Icon(LucideIcons.download),"),
-                        CodeCommentLine("  # Mit Icon hinten"),
-                        CodeTextLine("  trailing: const Icon(LucideIcons.arrowRight),"),
-                        CodeCommentLine("  # Für aktiven Button (bei deaktiviertem Button weglassen)"),
-                        CodeTextLine("  onPressed: () {},"),
-                        CodeCommentLine("  # Text des Buttons"),
-                        CodeTextLine("  child: const Text('Primärer Button'),"),
+                        CodeCommentLine("# Beispiel für Text-Eingabefelder"),
+                        CodeTextLine("SizedBox("),
+                        CodeCommentLine("  # Für die Einschränkung in der Breite"),
+                        CodeTextLine("  width: 500,"),
+                        CodeTextLine("  child: Column("),
+                        CodeTextLine("    crossAxisAlignment: CrossAxisAlignment.stretch,"),
+                        CodeTextLine("    children: ["),
+                        CodeTextLine("      FormField<String>("),
+                        CodeTextLine("        key: nameKey,"),
+                        CodeTextLine("        label: const Text('Text-Feld'),"),
+                        CodeTextLine("        validator: const LengthValidator(min: 2),"),
+                        CodeTextLine("        child: const TextField("),
+                        CodeTextLine("          placeholder: Text('Ihr Text ...'),"),
+                        CodeTextLine("          initialValue: '',"),
+                        CodeTextLine("        ),"),
+                        CodeTextLine("      ),"),
+                        CodeCommentLine("      # Hier können weitere Komponenten eingefügt werden"),
+                        CodeTextLine("    ],"),
+                        CodeTextLine("  ),"),
                         CodeTextLine("),"),
                       ],
                     ),
@@ -69,6 +76,60 @@ class FormsScreen extends StatelessWidget {
                 ],
               ),
               Gap(20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 900),
+                    child: CodeCard(
+                      title: 'Text-Eingaben',
+                      example: Row(
+                        children: [
+                          SizedBox(
+                            width: 500,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                FormField<String>(
+                                  key: nameKey,
+                                  label: const Text('Text-Feld'),
+                                  validator: const LengthValidator(min: 2),
+                                  child: const TextField(
+                                    placeholder: Text('Ihr Text ...'),
+                                    initialValue: '',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      lines: [
+                        CodeCommentLine("# Beispiel für Text-Eingabefelder"),
+                        CodeTextLine("SizedBox("),
+                        CodeCommentLine("  # Für die Einschränkung in der Breite"),
+                        CodeTextLine("  width: 500,"),
+                        CodeTextLine("  child: Column("),
+                        CodeTextLine("    crossAxisAlignment: CrossAxisAlignment.stretch,"),
+                        CodeTextLine("    children: ["),
+                        CodeTextLine("      FormField<String>("),
+                        CodeTextLine("        key: nameKey,"),
+                        CodeTextLine("        label: const Text('Text-Feld'),"),
+                        CodeTextLine("        validator: const LengthValidator(min: 2),"),
+                        CodeTextLine("        child: const TextField("),
+                        CodeTextLine("          placeholder: Text('Ihr Text ...'),"),
+                        CodeTextLine("          initialValue: '',"),
+                        CodeTextLine("        ),"),
+                        CodeTextLine("      ),"),
+                        CodeCommentLine("      # Hier können weitere Komponenten eingefügt werden"),
+                        CodeTextLine("    ],"),
+                        CodeTextLine("  ),"),
+                        CodeTextLine("),"),
+                      ],
+                    ),
+                  ).withPadding(horizontal: 10),
+                ],
+              ),
             ],
           ),
         ),
