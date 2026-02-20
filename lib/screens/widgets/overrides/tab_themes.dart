@@ -20,7 +20,7 @@ class TabThemes extends StatelessWidget {
       ),
       child: ComponentTheme(
         data: TabsTheme(
-          backgroundColor: isDark ? Colors.gray[600] : Colors.blue[100],
+          backgroundColor: isDark ? Colors.gray[600] : Colors.blue[50],
         ),
         child: child,
       ),
