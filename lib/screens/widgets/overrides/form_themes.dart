@@ -33,9 +33,9 @@ class FormThemes extends StatelessWidget {
           ),
           child: ComponentTheme(
             data: SliderTheme(
-              trackColor: isDark ? Colors.gray[500] : Colors.gray[500],
-              valueColor: isDark ? Colors.gray[100] : Colors.gray[100],
-              thumbColor: isDark ? Colors.gray[100] : Colors.gray[100],
+              trackColor: isDark ? Colors.gray[500] : Colors.blue[200],
+              valueColor: isDark ? Colors.gray[100] : Colors.blue[900],
+              thumbColor: isDark ? Colors.gray[100] : Colors.blue[900],
               thumbBorderColor: isDark ? Colors.blue[900] : Colors.blue[900],
             ),
             child: ComponentTheme(
@@ -43,7 +43,7 @@ class FormThemes extends StatelessWidget {
                 activeColor: isDark ? Colors.blue[400] : Colors.blue[300],
                 activeThumbColor: isDark ? Colors.blue[900] : Colors.blue[900],
                 inactiveColor: isDark ? Colors.gray[500] : Colors.gray[200],
-                inactiveThumbColor: isDark ? Colors.gray[200] : Colors.blue[400],
+                inactiveThumbColor: isDark ? Colors.gray[200] : Colors.blue[900],
               ),
               child: child,
             ),
