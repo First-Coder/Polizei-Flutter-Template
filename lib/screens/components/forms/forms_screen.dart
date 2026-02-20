@@ -494,35 +494,6 @@ class _FormsScreenState extends State<FormsScreen> {
               ).withPadding(horizontal: 10),
               Gap(20),
               CodeCard(
-                title: 'Toggle Switch',
-                example: Switch(
-                  value: toggleValue,
-                  onChanged: (value) {
-                    setState(() {
-                      toggleValue = value;
-                    });
-                  },
-                  leading: const Text('Option 1'),
-                  trailing: const Text('Option 2'),
-                ),
-                lines: [
-                  CodeCommentLine("# Am Anfang der Klasse angeben"),
-                  CodeTextLine("bool toggleValue = false;"),
-                  CodeCommentLine("# Beispiel für Toggle Switches"),
-                  CodeTextLine("Switch("),
-                  CodeTextLine("  value: toggleValue,"),
-                  CodeTextLine("  onChanged: (value) {"),
-                  CodeTextLine("    setState(() {"),
-                  CodeTextLine("      toggleValue = value;"),
-                  CodeTextLine("    });"),
-                  CodeTextLine("  },"),
-                  CodeTextLine("  leading: const Text('Option 1'),"),
-                  CodeTextLine("  trailing: const Text('Option 2'),"),
-                  CodeTextLine("),"),
-                ],
-              ).withPadding(horizontal: 10),
-              Gap(20),
-              CodeCard(
                 title: 'Slider',
                 example: Column(
                   mainAxisSize: MainAxisSize.min,

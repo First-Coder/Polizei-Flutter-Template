@@ -35,6 +35,8 @@ final double radius = 0.5;
 final ColorScheme light = ColorSchemes.lightSlate.blue.copyWith(
   primary: () => Colors.blue[900],
   primaryForeground: () => Colors.white,
+  border: () => Colors.blue[900],
+  input: () => Colors.gray[100],
 );
 
 /// The light [ThemeData] for `shadcn_flutter`.
@@ -51,6 +53,8 @@ final ColorScheme dark = ColorSchemes.darkSlate.blue.copyWith(
   primary: () => Colors.blue[700],
   primaryForeground: () => Colors.white,
   card: () => Colors.gray[800],
+  border: () => Colors.gray[100],
+  input: () => Colors.gray[600],
 );
 
 /// The dark [ThemeData] for `shadcn_flutter`.

@@ -1,3 +1,4 @@
+import 'package:police_flutter_template/screens/widgets/overrides/form_themes.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../overrides/button_themes.dart';
@@ -11,8 +12,10 @@ class OverrideThemeLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ButtonThemes(
-      child: ContainerThemes(child: CardThemes(child: child)),
+    return FormThemes(
+      child: ButtonThemes(
+        child: ContainerThemes(child: CardThemes(child: child)),
+      ),
     );
   }
 }
