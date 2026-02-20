@@ -45,14 +45,21 @@ class _FormsScreenState extends State<FormsScreen> {
                 example: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    FormField<String>(
-                      key: nameKey,
-                      label: const Text('Text-Feld'),
-                      validator: const LengthValidator(min: 2),
-                      child: const TextField(
-                        placeholder: Text('Ihr Text ...'),
-                        initialValue: '',
+                    Form(
+                      child: FormField<String>(
+                        key: nameKey,
+                        label: const Text('Text-Feld'),
+                        validator: const LengthValidator(
+                          min: 3,
+                          message: 'Der Text muss mindestens 3 Zeichen lang sein',
+                        ),
+                        showErrors: {
+                          FormValidationMode.changed,
+                          FormValidationMode.submitted,
+                        },
+                        child: const TextField(placeholder: Text('Ihr Text ...')),
                       ),
+                      onSubmit: (context, values) {},
                     ),
                   ],
                 ),
@@ -63,17 +70,21 @@ class _FormsScreenState extends State<FormsScreen> {
                   ),
                   CodeTextLine(""),
                   CodeCommentLine("# Beispiel für Text-Eingabefelder"),
-                  CodeTextLine("FormField<String>("),
-                  CodeTextLine("  key: textKey,"),
-                  CodeTextLine("  label: const Text('Text-Feld'),"),
-                  CodeCommentLine(
-                    "  # Validierung: Mindestlänge der Eingabe sind 2 Zeichen",
-                  ),
-                  CodeTextLine("  validator: const LengthValidator(min: 2),"),
-                  CodeTextLine("  child: const TextField("),
-                  CodeTextLine("    placeholder: Text('Ihr Text ...'),"),
-                  CodeTextLine("    initialValue: '',"),
+                  CodeTextLine("Form("),
+                  CodeTextLine("  child: FormField<String>("),
+                  CodeTextLine("    key: nameKey,"),
+                  CodeTextLine("    label: const Text('Text-Feld'),"),
+                  CodeTextLine("    validator: const LengthValidator("),
+                  CodeTextLine("      min: 3,"),
+                  CodeTextLine("      message: 'Der Text muss mindestens 3 Zeichen lang sein',"),
+                  CodeTextLine("    ),"),
+                  CodeTextLine("    showErrors: {"),
+                  CodeTextLine("      FormValidationMode.changed,"),
+                  CodeTextLine("      FormValidationMode.submitted,"),
+                  CodeTextLine("    },"),
+                  CodeTextLine("    child: const TextField(placeholder: Text('Ihr Text ...')),"),
                   CodeTextLine("  ),"),
+                  CodeTextLine("  onSubmit: (context, values) {},"),
                   CodeTextLine("),"),
                 ],
               ).withPadding(horizontal: 10),
@@ -83,16 +94,19 @@ class _FormsScreenState extends State<FormsScreen> {
                 example: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    FormField<String>(
-                      key: mailKey,
-                      label: const Text('Email'),
-                      validator: const EmailValidator(
-                        message:
-                            'Bitte geben Sie eine gültige Email-Adresse ein',
+                    Form(
+                      child: FormField<String>(
+                        key: mailKey,
+                        label: const Text('Email'),
+                        validator: const EmailValidator(
+                          message:
+                              'Bitte geben Sie eine gültige Email-Adresse ein',
+                        ),
+                        child: const TextField(
+                          placeholder: Text('ihre@email.de'),
+                        ),
                       ),
-                      child: const TextField(
-                        placeholder: Text('ihre@email.de'),
-                      ),
+                      onSubmit: (context, values) {},
                     ),
                   ],
                 ),
@@ -103,18 +117,20 @@ class _FormsScreenState extends State<FormsScreen> {
                   ),
                   CodeTextLine(""),
                   CodeCommentLine("# Beispiel für Email-Eingabefelder"),
-                  CodeTextLine("FormField<String>("),
-                  CodeTextLine("  key: mailKey,"),
-                  CodeTextLine("  label: const Text('Email'),"),
-                  CodeCommentLine("  # Validierung: Gültige Email-Adresse"),
-                  CodeTextLine("  validator: const EmailValidator("),
-                  CodeTextLine(
-                    "    message: 'Bitte geben Sie eine gültige Email-Adresse ein',",
+                  CodeTextLine("Form("),
+                  CodeTextLine("  child: FormField<String>("),
+                  CodeTextLine("    key: mailKey,"),
+                  CodeTextLine("    label: const Text('Email'),"),
+                  CodeCommentLine("   # Validierung: Gültige Email-Adresse"),
+                  CodeTextLine("    validator: const EmailValidator("),
+                  CodeTextLine("      message: 'Bitte geben Sie eine gültige Email-Adresse ein',",
                   ),
+                  CodeTextLine("    ),"),
+                  CodeTextLine("    child: const TextField("),
+                  CodeTextLine("      placeholder: Text('ihre@email.de'),"),
+                  CodeTextLine("    ),"),
                   CodeTextLine("  ),"),
-                  CodeTextLine("  child: const TextField("),
-                  CodeTextLine("    placeholder: Text('ihre@email.de'),"),
-                  CodeTextLine("  ),"),
+                  CodeTextLine("  onSubmit: (context, values) {},"),
                   CodeTextLine("),"),
                 ],
               ).withPadding(horizontal: 10),
@@ -124,13 +140,19 @@ class _FormsScreenState extends State<FormsScreen> {
                 example: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    FormField<DateTime>(
-                      key: birthdayKey,
-                      label: const Text('Datum'),
-                      validator: const NonNullValidator(
-                        message: 'Bitte geben Sie ein Datum ein',
+                    Form(
+                      child: FormField<DateTime>(
+                        key: birthdayKey,
+                        label: const Text('Datum'),
+                        validator: const NonNullValidator(
+                          message: 'Bitte geben Sie ein Datum ein',
+                        ),
+                        child: ControlledDatePicker(
+                          initialValue: DateTime.now(),
+                          onChanged: (value) {},
+                        ),
                       ),
-                      child: const ControlledDatePicker(),
+                      onSubmit: (context, values) {},
                     ),
                   ],
                 ),
@@ -141,16 +163,18 @@ class _FormsScreenState extends State<FormsScreen> {
                   ),
                   CodeTextLine(""),
                   CodeCommentLine("# Beispiel für Datum-Eingabefelder"),
-                  CodeTextLine("FormField<DateTime>("),
-                  CodeTextLine("  key: dateKey,"),
-                  CodeTextLine("  label: const Text('Datum'),"),
-                  CodeCommentLine(
-                    "  # Validierung: Eingabe darf nicht leer sein",
-                  ),
-                  CodeTextLine(
-                    "  validator: const NonNullValidator(message: 'Bitte geben Sie ein Datum ein'),",
-                  ),
-                  CodeTextLine("  child: const ControlledDatePicker(),"),
+                  CodeTextLine("Form("),
+                  CodeTextLine("  child: FormField<DateTime>("),
+                  CodeTextLine("    key: birthdayKey,"),
+                  CodeTextLine("    label: const Text('Datum'),"),
+                  CodeTextLine("    validator: const NonNullValidator("),
+                  CodeTextLine("      message: 'Bitte geben Sie ein Datum ein',"),
+                  CodeTextLine("    ),"),
+                  CodeTextLine("    child: ControlledDatePicker("),
+                  CodeTextLine("      onChanged: (value) {},"),
+                  CodeTextLine("    ),"),
+                  CodeTextLine("  ),"),
+                  CodeTextLine("  onSubmit: (context, values) {},"),
                   CodeTextLine("),"),
                 ],
               ).withPadding(horizontal: 10),
@@ -160,29 +184,35 @@ class _FormsScreenState extends State<FormsScreen> {
                 example: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const TextArea(
-                      initialValue: 'Hallo, Welt!',
-                      // Enable both horizontal and vertical growth based on content.
-                      expandableWidth: true,
-                      expandableHeight: true,
-                      // Larger starting dimensions to make the behavior obvious.
-                      initialWidth: 500,
-                      initialHeight: 100,
+                    Form(
+                      child: const TextArea(
+                        initialValue: 'Hallo, Welt!',
+                        expandableWidth: true,
+                        expandableHeight: true,
+                        initialWidth: 500,
+                        initialHeight: 100,
+                      ),
+                      onSubmit: (context, values) {},
                     ),
                   ],
                 ),
                 lines: [
                   CodeCommentLine("# Beispiel für Textarea-Felder"),
-                  CodeTextLine("const TextArea("),
-                  CodeTextLine("  initialValue: 'Hallo, Welt!',"),
+                  CodeTextLine("Form("),
+                  CodeTextLine("  child: const TextArea("),
+                  CodeTextLine("    initialValue: 'Hallo, Welt!',"),
                   CodeCommentLine(
-                    "  # Angabe ob Höhe(Height) und/oder Breite(Width) anpassbar sein sollen",
+                    "    # Angabe ob Höhe(Height) und/oder Breite(Width) anpassbar sein sollen",
                   ),
-                  CodeTextLine("  expandableWidth: true,"),
-                  CodeTextLine("  expandableHeight: true,"),
-                  CodeCommentLine("  # Die initiale Höhe und Breite"),
-                  CodeTextLine("  initialWidth: 500,"),
-                  CodeTextLine("  initialHeight: 100,"),
+                  CodeTextLine("    expandableWidth: true,"),
+                  CodeTextLine("    expandableHeight: true,"),
+                  CodeCommentLine(
+                    "    # Initiale Höhe(Height) und Breite(Width) angeben",
+                  ),
+                  CodeTextLine("    initialWidth: 500,"),
+                  CodeTextLine("    initialHeight: 100,"),
+                  CodeTextLine("  ),"),
+                  CodeTextLine("  onSubmit: (context, values) {},"),
                   CodeTextLine("),"),
                 ],
               ).withPadding(horizontal: 10),
@@ -421,7 +451,7 @@ class _FormsScreenState extends State<FormsScreen> {
                         ),
                       ),
                     ],
-                  ),
+                  ).gap(10),
                 ),
                 lines: [
                   CodeCommentLine("# Am Anfang der Klasse angeben"),
@@ -459,7 +489,7 @@ class _FormsScreenState extends State<FormsScreen> {
                   CodeTextLine("        ),"),
                   CodeTextLine("      ),"),
                   CodeTextLine("    ],"),
-                  CodeTextLine("  ),"),
+                  CodeTextLine("  ).gap(10),"),
                   CodeTextLine("),"),
                 ],
               ).withPadding(horizontal: 10),
@@ -515,15 +545,21 @@ class _FormsScreenState extends State<FormsScreen> {
                 ),
                 lines: [
                   CodeCommentLine("# Am Anfang der Klasse angeben"),
-                  CodeCommentLine("// Hier wird der initiale Wert des Sliders angegeben (0.5)"),
-                  CodeTextLine("SliderValue sliderValue = const SliderValue.single(0.5);"),
+                  CodeCommentLine(
+                    "// Hier wird der initiale Wert des Sliders angegeben (0.5)",
+                  ),
+                  CodeTextLine(
+                    "SliderValue sliderValue = const SliderValue.single(0.5);",
+                  ),
                   CodeCommentLine("# Beispiel für Single Slider"),
                   CodeTextLine("Column("),
                   CodeTextLine("  mainAxisSize: MainAxisSize.min,"),
                   CodeTextLine("  children: ["),
                   CodeTextLine("    Slider("),
                   CodeTextLine("      # max und divisions sind optional"),
-                  CodeTextLine("      // Erlaube Werte von 0 bis 2 in 20 Schritten."),
+                  CodeTextLine(
+                    "      // Erlaube Werte von 0 bis 2 in 20 Schritten.",
+                  ),
                   CodeTextLine("      max: 2,"),
                   CodeTextLine("      divisions: 20,"),
                   CodeTextLine("      value: sliderValue,"),
@@ -556,13 +592,19 @@ class _FormsScreenState extends State<FormsScreen> {
                     ),
                     const Gap(16),
                     // Display the current ranged values below the slider.
-                    Text('Werte: ${rangeSliderValue.start} - ${rangeSliderValue.end}'),
+                    Text(
+                      'Werte: ${rangeSliderValue.start} - ${rangeSliderValue.end}',
+                    ),
                   ],
                 ),
                 lines: [
                   CodeCommentLine("# Am Anfang der Klasse angeben"),
-                  CodeCommentLine("// Hier werden die initialen Werte des Sliders angegeben (0.5 und 0.75)"),
-                  CodeTextLine("SliderValue rangeSliderValue = const SliderValue.ranged(0.5, 0.75);"),
+                  CodeCommentLine(
+                    "// Hier werden die initialen Werte des Sliders angegeben (0.5 und 0.75)",
+                  ),
+                  CodeTextLine(
+                    "SliderValue rangeSliderValue = const SliderValue.ranged(0.5, 0.75);",
+                  ),
                   CodeCommentLine("# Beispiel für Range Slider"),
                   CodeTextLine("Column("),
                   CodeTextLine("  mainAxisSize: MainAxisSize.min,"),
@@ -577,8 +619,12 @@ class _FormsScreenState extends State<FormsScreen> {
                   CodeTextLine("      },"),
                   CodeTextLine("    ),"),
                   CodeTextLine("    const Gap(16),"),
-                  CodeTextLine("    // Display the current ranged values below the slider."),
-                  CodeTextLine("    Text('Werte: \${rangeSliderValue.start} - \${rangeSliderValue.end}'),"),
+                  CodeTextLine(
+                    "    // Display the current ranged values below the slider.",
+                  ),
+                  CodeTextLine(
+                    "    Text('Werte: \${rangeSliderValue.start} - \${rangeSliderValue.end}'),",
+                  ),
                   CodeTextLine("  ],"),
                   CodeTextLine("),"),
                 ],
