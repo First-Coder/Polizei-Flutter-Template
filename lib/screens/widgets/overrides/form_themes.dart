@@ -45,7 +45,24 @@ class FormThemes extends StatelessWidget {
                 inactiveColor: isDark ? Colors.gray[500] : Colors.gray[200],
                 inactiveThumbColor: isDark ? Colors.gray[200] : Colors.blue[900],
               ),
-              child: child,
+              child: ComponentTheme(
+                data: MenuButtonTheme(
+                  decoration: (context, states, defaultDecoration) {
+                    var themeData = Theme.of(context);
+                    if (states.contains(WidgetState.hovered)) {
+                      return BoxDecoration(
+                        color: themeData.colorScheme.muted.scaleAlpha(0.8),
+                        borderRadius: BorderRadius.circular(themeData.radiusMd),
+                      );
+                    }
+                    return BoxDecoration(
+                      color: themeData.colorScheme.muted.withValues(alpha: 0),
+                      borderRadius: BorderRadius.circular(themeData.radiusMd),
+                    );
+                  },
+                ),
+                child: child,
+              ),
             ),
           ),
         ),

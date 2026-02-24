@@ -51,13 +51,16 @@ class _FormsScreenState extends State<FormsScreen> {
                         label: const Text('Text-Feld'),
                         validator: const LengthValidator(
                           min: 3,
-                          message: 'Der Text muss mindestens 3 Zeichen lang sein',
+                          message:
+                              'Der Text muss mindestens 3 Zeichen lang sein',
                         ),
                         showErrors: {
                           FormValidationMode.changed,
                           FormValidationMode.submitted,
                         },
-                        child: const TextField(placeholder: Text('Ihr Text ...')),
+                        child: const TextField(
+                          placeholder: Text('Ihr Text ...'),
+                        ),
                       ),
                       onSubmit: (context, values) {},
                     ),
@@ -76,13 +79,17 @@ class _FormsScreenState extends State<FormsScreen> {
                   CodeTextLine("    label: const Text('Text-Feld'),"),
                   CodeTextLine("    validator: const LengthValidator("),
                   CodeTextLine("      min: 3,"),
-                  CodeTextLine("      message: 'Der Text muss mindestens 3 Zeichen lang sein',"),
+                  CodeTextLine(
+                    "      message: 'Der Text muss mindestens 3 Zeichen lang sein',",
+                  ),
                   CodeTextLine("    ),"),
                   CodeTextLine("    showErrors: {"),
                   CodeTextLine("      FormValidationMode.changed,"),
                   CodeTextLine("      FormValidationMode.submitted,"),
                   CodeTextLine("    },"),
-                  CodeTextLine("    child: const TextField(placeholder: Text('Ihr Text ...')),"),
+                  CodeTextLine(
+                    "    child: const TextField(placeholder: Text('Ihr Text ...')),",
+                  ),
                   CodeTextLine("  ),"),
                   CodeTextLine("  onSubmit: (context, values) {},"),
                   CodeTextLine("),"),
@@ -123,7 +130,8 @@ class _FormsScreenState extends State<FormsScreen> {
                   CodeTextLine("    label: const Text('Email'),"),
                   CodeCommentLine("   # Validierung: Gültige Email-Adresse"),
                   CodeTextLine("    validator: const EmailValidator("),
-                  CodeTextLine("      message: 'Bitte geben Sie eine gültige Email-Adresse ein',",
+                  CodeTextLine(
+                    "      message: 'Bitte geben Sie eine gültige Email-Adresse ein',",
                   ),
                   CodeTextLine("    ),"),
                   CodeTextLine("    child: const TextField("),
@@ -168,7 +176,9 @@ class _FormsScreenState extends State<FormsScreen> {
                   CodeTextLine("    key: birthdayKey,"),
                   CodeTextLine("    label: const Text('Datum'),"),
                   CodeTextLine("    validator: const NonNullValidator("),
-                  CodeTextLine("      message: 'Bitte geben Sie ein Datum ein',"),
+                  CodeTextLine(
+                    "      message: 'Bitte geben Sie ein Datum ein',",
+                  ),
                   CodeTextLine("    ),"),
                   CodeTextLine("    child: ControlledDatePicker("),
                   CodeTextLine("      onChanged: (value) {},"),
@@ -236,6 +246,7 @@ class _FormsScreenState extends State<FormsScreen> {
                               subMenu: [
                                 MenuButton(child: Text('Untermenü Option 2.1')),
                               ],
+                              autoClose: false,
                               child: Text('Option 2'),
                             ),
                             MenuDivider(),
@@ -245,6 +256,7 @@ class _FormsScreenState extends State<FormsScreen> {
                       },
                       anchorPlacement: Alignment.bottomCenter,
                       placement: Alignment.topCenter,
+                      enablePress: true,
                       hoverCloseDelay: const Duration(milliseconds: 500),
                     ),
                   ],
@@ -267,6 +279,7 @@ class _FormsScreenState extends State<FormsScreen> {
                     "            MenuButton(child: Text('Untermenü Option 2.1')),",
                   ),
                   CodeTextLine("          ],"),
+                  CodeTextLine("          autoClose: false,"),
                   CodeTextLine("          child: Text('Option 2'),"),
                   CodeTextLine("        ),"),
                   CodeTextLine("        MenuDivider(),"),
@@ -279,6 +292,7 @@ class _FormsScreenState extends State<FormsScreen> {
                   CodeCommentLine("  # Wo am Menü der Ankerpunkt ist"),
                   CodeTextLine("  placement: Alignment.topCenter,"),
                   CodeCommentLine("  # Dauer, bis das Menü geschlossen wird"),
+                  CodeTextLine("  enablePress: true,"),
                   CodeTextLine(
                     "  hoverCloseDelay: const Duration(milliseconds: 500),",
                   ),

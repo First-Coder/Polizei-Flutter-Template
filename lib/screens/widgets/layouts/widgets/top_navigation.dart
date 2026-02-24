@@ -79,30 +79,51 @@ class TopNavigation extends StatelessWidget {
                   ),
                 ).withPopover(
                   enabled: item.children.isNotEmpty,
+                  enablePress: true,
                   offset: const Offset(0, -4),
                   builder: (context) {
                     return ModalContainer(
                       padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
+                      child: DropdownMenu(
                         children: item.children
                             .map(
-                              (subItem) => SizedBox(
-                                width: double.infinity,
-                                child: LightButton(
-                                  onPressed: () => _onPressed(context, subItem),
-                                  isIcon: false,
-                                  isActive:
+                              (subItem) => MenuButton(
+                                onPressed: (context) {
+                                  _onPressed(context, subItem);
+                                },
+                                enabled: subItem.index !=
+                                    navigationShell.currentIndex,
+                                leading:
+                                    subItem.index ==
+                                        navigationShell.currentIndex
+                                    ? IconTheme(
+                                        data: IconThemeData(
+                                          color: Colors.gray[400],
+                                          size: 16,
+                                        ),
+                                        child: subItem.icon!,
+                                      )
+                                    : subItem.icon,
+                                trailing:
+                                    subItem.index ==
+                                        navigationShell.currentIndex
+                                    ? Icon(
+                                        LucideIcons.mapPin,
+                                        color: Colors.gray[400],
+                                      )
+                                    : null,
+                                child: Text(
+                                  subItem.title,
+                                  style:
                                       subItem.index ==
-                                      navigationShell.currentIndex,
-                                  borderRadius: 0,
-                                  leading: subItem.icon,
-                                  child: Text(subItem.title),
+                                          navigationShell.currentIndex
+                                      ? TextStyle(color: Colors.gray[400])
+                                      : null,
                                 ),
                               ),
                             )
                             .toList(),
-                      ).gap(5),
+                      ),
                     ).intrinsicWidth();
                   },
                 )),
