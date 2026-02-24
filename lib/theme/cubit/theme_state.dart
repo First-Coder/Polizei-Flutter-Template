@@ -35,7 +35,7 @@ final double radius = 0.5;
 final ColorScheme light = ColorSchemes.lightSlate.blue.copyWith(
   primary: () => Colors.blue[900],
   primaryForeground: () => Colors.white,
-  border: () => Colors.blue[900],
+  border: () => Colors.gray[500],
   input: () => Colors.gray[100],
 );
 
