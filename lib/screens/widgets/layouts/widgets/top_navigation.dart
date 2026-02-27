@@ -52,7 +52,12 @@ class TopNavigation extends StatelessWidget {
             (item) =>
                 (LightButton(
                   onPressed: () => _onPressed(context, item),
-                  isActive: item.index == navigationShell.currentIndex,
+                  isActive:
+                      item.index == navigationShell.currentIndex ||
+                      item.children.any(
+                        (subItem) =>
+                            subItem.index == navigationShell.currentIndex,
+                      ),
                   isIcon: false,
                   trailing: item.children.isEmpty
                       ? null
@@ -82,48 +87,43 @@ class TopNavigation extends StatelessWidget {
                   enablePress: true,
                   offset: const Offset(0, -4),
                   builder: (context) {
-                    return ModalContainer(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: DropdownMenu(
-                        children: item.children
-                            .map(
-                              (subItem) => MenuButton(
-                                onPressed: (context) {
-                                  _onPressed(context, subItem);
-                                },
-                                enabled: subItem.index !=
-                                    navigationShell.currentIndex,
-                                leading:
-                                    subItem.index ==
-                                        navigationShell.currentIndex
-                                    ? IconTheme(
-                                        data: IconThemeData(
-                                          color: Colors.gray[400],
-                                          size: 16,
-                                        ),
-                                        child: subItem.icon!,
-                                      )
-                                    : subItem.icon,
-                                trailing:
-                                    subItem.index ==
-                                        navigationShell.currentIndex
-                                    ? Icon(
-                                        LucideIcons.mapPin,
+                    return DropdownMenu(
+                      children: item.children
+                          .map(
+                            (subItem) => MenuButton(
+                              onPressed: (context) {
+                                _onPressed(context, subItem);
+                              },
+                              enabled:
+                                  subItem.index != navigationShell.currentIndex,
+                              leading:
+                                  subItem.index == navigationShell.currentIndex
+                                  ? IconTheme(
+                                      data: IconThemeData(
                                         color: Colors.gray[400],
-                                      )
+                                        size: 16,
+                                      ),
+                                      child: subItem.icon!,
+                                    )
+                                  : subItem.icon,
+                              trailing:
+                                  subItem.index == navigationShell.currentIndex
+                                  ? Icon(
+                                      LucideIcons.mapPin,
+                                      color: Colors.gray[400],
+                                    )
+                                  : null,
+                              child: Text(
+                                subItem.title,
+                                style:
+                                    subItem.index ==
+                                        navigationShell.currentIndex
+                                    ? TextStyle(color: Colors.gray[400])
                                     : null,
-                                child: Text(
-                                  subItem.title,
-                                  style:
-                                      subItem.index ==
-                                          navigationShell.currentIndex
-                                      ? TextStyle(color: Colors.gray[400])
-                                      : null,
-                                ),
                               ),
-                            )
-                            .toList(),
-                      ),
+                            ),
+                          )
+                          .toList(),
                     ).intrinsicWidth();
                   },
                 )),
