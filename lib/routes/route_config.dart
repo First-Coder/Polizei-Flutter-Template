@@ -228,6 +228,9 @@ class RouteConfig {
           ],
         ),
       ],
+      errorBuilder: (context, state) {
+        return const NotFoundScreen();
+      },
     );
   }
 }

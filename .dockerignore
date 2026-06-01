@@ -1,0 +1,42 @@
+# Flutter build artifacts
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+
+# Platform-specific directories (not needed for web build)
+android/
+ios/
+macos/
+windows/
+linux/
+
+# Version control
+.git/
+.gitignore
+
+# IDE configuration
+.idea/
+.vscode/
+*.iml
+
+# Documentation
+README.md
+
+# CI/CD
+.github/
+
+# Local configuration
+.metadata
+*.log
+devtools_options.yaml
+
+# Testing
+test/
+
+# Docker files
+.dockerignore
+docker-compose.yml
